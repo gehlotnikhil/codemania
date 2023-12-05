@@ -1,6 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const Question = require("../model/Question")
+const { body, validationResult } = require("express-validator")
 
 
 
@@ -11,7 +12,34 @@ router.get("/getallquestion",async(req,res)=>{
 })
 
 // Route 2: Create a Question - POST Request
-router.post("/create", async (req, res) => {
+router.post("/create",[
+    body("name","Please fill the Name Field").exists(),
+    body("description","Please fill the description Field").exists(),
+    body("difficulty","Please fill the difficulty Field").exists(),
+    body("timeComplexity","Please fill the timeComplexity Field").exists(),
+    body("spaceComplexity","Please fill the spaceComplexity Field").exists(),
+    body("companies","Please fill the companies Field").exists(),
+    body("testcase1","Please fill the testcase1 Field").exists(),
+    body("testcase2","Please fill the testcase2 Field").exists(),
+    body("testcase3","Please fill the testcase3 Field").exists(),
+    body("outputOfTestcase1","Please fill the outputOfTestcase1 Field").exists(),
+    body("outputOfTestcase2","Please fill the outputOfTestcase2 Field").exists(),
+    body("outputOfTestcase3","Please fill the outputOfTestcase3 Field").exists(),
+    body("sampleInput1","Please fill the sampleInput1 Field").exists(),
+    body("sampleInput2","Please fill the sampleInput2 Field").exists(),
+    body("sampleInput3","Please fill the sampleInput3 Field").exists(),
+    body("sampleOutput1","Please fill the sampleOutput1 Field").exists(),
+    body("sampleOutput2","Please fill the sampleOutput2 Field").exists(),
+    body("sampleOutput3","Please fill the sampleOutput3 Field").exists(),
+    body("accepted","Please fill the accepted Field").exists(),
+    body("submission","Please fill the submission Field").exists()
+], async (req, res) => {
+    const error = validationResult(req)
+    // after checking credential, if error occur then execute if statement
+    if (!error.isEmpty()) {
+        return res.status(403).json({error: error.array() })
+    }
+
     let question = new Question({
         name: req.body.name,
         description: req.body.description,

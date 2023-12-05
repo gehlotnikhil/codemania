@@ -35,24 +35,29 @@ router.post("/question/submit", (req, res) => {
         }
         let ans;
         try {
+            console.log("1");
             // Use execSync to run Java code synchronously
             let ans = execSync(`${javaExecutable} ${javaFile}`, {
                 input: input,
                 encoding: 'utf-8',
             });
+            console.log("2");
             if (resultOfInput != ans) {
                 output.result = ans
                 output.isPassed = true
                 return output
             }
 
+            console.log("3");
             output.isPassed = true
             output.check = true
             output.result = ans
 
+            console.log("4");
             return output;
         } catch (error) {
             output.result = "Compile Error..."
+            console.log("5");
             return output
         }
     }
