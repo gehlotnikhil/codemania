@@ -1,32 +1,91 @@
-import React from 'react'
-import { Link,useLocation } from "react-router-dom";
+import React,{useEffect, useState} from 'react'
+import { Link, useLocation } from "react-router-dom";
+import icon from '../images/codemania_icon.png'
+
 function Navbar() {
+
+  const [loginDisplay,setLoginDisplay] = useState("")
+  const [registerDisplay,setRegisterDisplay] = useState("")
+  const [adminDisplay,setAdminDisplay] = useState("")
+  const [profileDisplay,setProfileDisplay] = useState("")
+  const [navItemsDisplay,setNavItemsDisplay] = useState("")
+  
+
+
+  let location = useLocation()
+  useEffect(() => {
+    console.log(location.pathname)
+    if(location.pathname === '/login'){
+      setLoginDisplay("d-none")
+      setRegisterDisplay("")
+      setAdminDisplay("")
+      setProfileDisplay("d-none")
+      setNavItemsDisplay("d-none")
+    }
+    else if(location.pathname === '/register'){
+      setLoginDisplay("")
+      setRegisterDisplay("d-none")
+      setAdminDisplay("")
+      setProfileDisplay("d-none")
+      setNavItemsDisplay("d-none")
+    }
+    else if(location.pathname === '/admin'){
+      setLoginDisplay("")
+      setRegisterDisplay("")
+      setAdminDisplay("d-none")
+      setProfileDisplay("d-none")
+      setNavItemsDisplay("d-none")
+    }
+    else{
+      setLoginDisplay("d-none")
+      setRegisterDisplay("d-none")
+      setAdminDisplay("d-none")
+      setProfileDisplay("")
+      setNavItemsDisplay("")
+    }
+  }, [location])
+
+
+
+
   return (
-    <div>
-      <nav className="navbar navbar-expand-lg bg-body-tertiary " style={{background: "#6d0375 !important"}} >
+    <div className='main-nav'>
+      <nav className="navbar navbar-expand-lg bg-nav ">
         <div className="container-fluid">
-          <Link className="navbar-brand text-white" to="/">Codemania</Link>
+          <img src={icon} height="56px" />
+          <Link className="navbar-brand text-danger platform_name"  >Codemania</Link>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
-          <div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav">
+          <div className="collapse navbar-collapse  " id="navbarNav">
+            <ul className="navbar-nav nav-items d-flex">
               <li className="nav-item">
-                <Link className="nav-link active text-white" aria-current="page" to="/">Home</Link>
+                <Link className={`nav-link active text-dark ${navItemsDisplay}`} aria-current="page" to="/">Home</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link text-white" to="/about">About</Link>
+                <Link className={`nav-link text-dark ${navItemsDisplay}`} to="/about">About</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link text-white" to="/playground">Playground</Link>
+                <Link className={`nav-link text-dark ${navItemsDisplay}`} to="/playground">Playground</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link disabled text-white" aria-disabled="true" to="/admin">Admin</Link>
+                <Link className={`nav-link  text-dark ${navItemsDisplay}`} aria-disabled="false" to="/question">Question</Link>
               </li>
             </ul>
           </div>
-          <div class="d-flex">
-            <Link className="btn btn-outline-success text-white border-light" to="/login" role="button">Sign out</Link>
+          <div className={`d-flex `}>
+            <Link className={`btn mx-2 btn-outline-success text-dark border-dark ${loginDisplay}`} to="/login" role="button">Login</Link>
+            <Link className={`btn mx-2 btn-outline-success text-dark border-dark ${registerDisplay}`} to="/register" role="button">Register</Link>
+            <Link className={`btn mx-2 btn-outline-success text-dark border-dark ${adminDisplay}`} to="/admin" role="button">Admin</Link>
+            <div className={`btn-group dropstart ${profileDisplay} `}>
+              <button type="button" className="btn btn-secondary profile-icon" data-bs-toggle="dropdown" aria-expanded="false">
+                N
+              </button>
+              <ul className="dropdown-menu">
+                <li><Link className="dropdown-item" to="/profile">Profile</Link></li>
+                <li><Link className="dropdown-item" to="/login">Sign out</Link></li>
+              </ul>
+            </div>
           </div>
         </div>
       </nav>

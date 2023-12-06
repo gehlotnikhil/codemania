@@ -3,9 +3,12 @@ import image from "../images/coding.png";
 
 function Login() {
   return (
-    <div style={{ background: `url(${image})`, height: "90vh" }}>
+    <div style={{ background: `url(${image}) center center/cover no-repeat`, height: "100vh" }}>
       <div className="container">
-        <h1 style={{ textAlign: "center", color: "red", fontStyle: "italic", fontSize: "6rem" }}>Codemania</h1>
+        <h1 style={{ textAlign: "center", color: "red",  fontSize: "6rem",fontFamily: "Pacifico, cursive" }}>Codemania</h1>
+      </div>
+      <div className="container text-light ">
+      <h1 className="text-center " >Login</h1>
       </div>
       <div className="container text-white my-3">
       <form>

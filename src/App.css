@@ -36,3 +36,55 @@
     transform: rotate(360deg);
   }
 }
+
+.heading{
+  font-size: 2em;
+}
+.paragraph{
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 26px;
+  font-family: 'Noto Sans', sans-serif;
+
+}
+.platform_name{
+font-weight: bold;
+margin-left: 4px;
+font-size: 22px;
+}
+
+
+.nav-items{
+  box-sizing: border-box;
+  height: 56px;
+  width: 70%;
+  margin-left: 26px;
+  max-width: 1440px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+    font-style: normal;
+    line-height: 14px;
+    font-weight: 400;
+    font-size: 20px;
+    font-family: 'Roboto Mono', monospace;
+  }
+
+.bg-nav {
+  background: #f7e3f5;
+}
+
+.main-nav{
+  position: sticky;
+  top:0;
+  z-index: 1;
+}
+*{
+  margin: 0;
+  padding: 0;
+}
+
+.profile-icon{
+  border-radius: 0;
+}
