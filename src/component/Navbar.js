@@ -63,7 +63,7 @@ function Navbar() {
                 <Link className={`nav-link active text-dark ${navItemsDisplay}`} aria-current="page" to="/">Home</Link>
               </li>
               <li className="nav-item">
-                <Link className={`nav-link text-dark ${navItemsDisplay}`} to="/about">About</Link>
+                <Link className={`nav-link text-dark ${navItemsDisplay}`} to="/about">About </Link>
               </li>
               <li className="nav-item">
                 <Link className={`nav-link text-dark ${navItemsDisplay}`} to="/playground">Playground</Link>

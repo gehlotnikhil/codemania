@@ -49,7 +49,7 @@ function Register() {
         </div>
         <div className="col-md-3">
           <label htmlFor="validationCustom04" className="form-label">Username:</label>
-          <input type="text" className="form-control" name="username" id="username" />
+          <input type="text" className="form-control" name="username" id="username" required/>
         </div>
         <div className="col-md-3">
           <label htmlFor="validationCustom05" className="form-label">Age:</label>

@@ -68,7 +68,7 @@ function Footer() {
             </Link>
 <hr style={{margin:"0",padding:"0"}}/>
           </section>
-          © 2024 Copyright:
+          © 2023 Copyright:
           <Link className="text-dark" href="https://mdbootstrap.com/">codemania.com</Link>
         </div>
 
