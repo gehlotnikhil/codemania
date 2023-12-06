@@ -10,9 +10,8 @@ function Navbar() {
   const [profileDisplay,setProfileDisplay] = useState("")
   const [navItemsDisplay,setNavItemsDisplay] = useState("")
   
-
-
   let location = useLocation()
+
   useEffect(() => {
     console.log(location.pathname)
     if(location.pathname === '/login'){
@@ -42,6 +41,13 @@ function Navbar() {
       setAdminDisplay("d-none")
       setProfileDisplay("")
       setNavItemsDisplay("")
+    }
+    //setting title
+    if(location.pathname === "/"){
+      document.title = `Codemania | Home`
+    }
+    else{
+      document.title = `Codemania | ${location.pathname.charAt(1).toUpperCase()}${location.pathname.substring(2)}`
     }
   }, [location])
 
