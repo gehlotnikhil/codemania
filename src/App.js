@@ -9,6 +9,7 @@ import Login from './component/Login';
 import Register from "./component/Register"
 import Admin from "./component/Admin"
 import Profile from "./component/Profile"
+import Footer from "./component/Footer"
 function App() {
   return (
     <>
@@ -24,6 +25,7 @@ function App() {
          <Route  exact path="/admin" element={<Admin />} /> 
          <Route  exact path="/profile" element={<Profile />} /> 
         </Routes>
+        <Footer/>
       </Router>
     </>
   );
