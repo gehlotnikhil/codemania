@@ -9,45 +9,22 @@ function Question() {
         console.log(question)
     }, [])
 
+    
     return (
-        <div>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Title</th>
-                        <th scope="col">Difficulty</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                        <td>@twitter</td>
-                    </tr>
-                </tbody>
-            </table>
-            <table>
-                {
-                    question.map((q) => {
+        <div className="  my-5" style={{width:"73%"}}>
+            <div className=' row' style={{ border: "1px solid black" }}>
+                <div className="container col-1" style={{ border: "2px solid black" }}>No.</div>
+                <div className="container col-7" style={{ border: "2px solid black" }}>Title</div>
+                <div className="container col-2" style={{ border: "2px solid black" }}>Acceptance</div>
+                <div className="container col-2" style={{ border: "2px solid black" }}>Difficulty</div>
+            </div>
 
-                        <QuestionItem key={q._id} />
-                    })
-                }
-            </table>
+            {
+                question.map((n) => {
+                    return <QuestionItem Squestion={n} key={n._id} />
+                })
+            }
+
         </div>
     )
 }

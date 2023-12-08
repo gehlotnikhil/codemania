@@ -126,3 +126,11 @@ body{
   font-weight: bold;
   font-family: 'Roboto Mono', monospace;
 }
+
+.question-hover:hover{
+  color: blue !important;
+  text-decoration: underline !important;
+}
+
+
+

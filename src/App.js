@@ -14,6 +14,7 @@ import NoteContext from "./context/notes/NoteContext"
 function App() {
   let question = [
     {
+      "no":1,
       "_id": "656af425cc554c3e4591dc19",
       "name": "Add Two-Sum",
       "description": "This is Two Sum Question",
@@ -33,11 +34,12 @@ function App() {
       "sampleOutput1": "30",
       "sampleOutput2": "50",
       "sampleOutput3": "70",
-      "accepted": "76",
+      "accepted": "90",
       "submission": "120",
       "__v": 0
     },
     {
+      "no":2,
       "_id": "656af7bd6fedf766d9added1",
       "name": "Three sum",
       "description": "This is Two Sum Question",
@@ -62,6 +64,7 @@ function App() {
       "__v": 0
     },
     {
+      "no":3,
       "_id": "656f0696efdda234ed2d46f2",
       "name": "Four sum",
       "description": "This is Two Sum Question",
@@ -81,11 +84,12 @@ function App() {
       "sampleOutput1": "30",
       "sampleOutput2": "50",
       "sampleOutput3": "70",
-      "accepted": "76",
+      "accepted": "29",
       "submission": "120",
       "__v": 0
     },
     {
+      "no":4,
       "_id": "656f06b1efdda234ed2d46f4",
       "name": "Five sum",
       "description": "This is Two Sum Question",
@@ -105,7 +109,7 @@ function App() {
       "sampleOutput1": "30",
       "sampleOutput2": "50",
       "sampleOutput3": "70",
-      "accepted": "76",
+      "accepted": "12",
       "submission": "120",
       "__v": 0
     }
