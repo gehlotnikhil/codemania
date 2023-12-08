@@ -9,6 +9,7 @@ const { body, validationResult } = require("express-validator")
 router.get("/getallquestion",async(req,res)=>{
     let result = await Question.find({})
     res.send(result)
+    
 })
 
 // Route 2: Create a Question - POST Request
@@ -39,8 +40,18 @@ router.post("/create",[
     if (!error.isEmpty()) {
         return res.status(403).json({error: error.array() })
     }
+    //No. of question
+    let countEntry = await Question.find({}).count()
 
+    // if title of question is already exist then return error
+    const k = await Question.find({name:req.body.name}).count()
+   if(k !== 0){
+    return res.status(404).send({error:"This Title is already exist"})
+   }
+   
+    
     let question = new Question({
+        no: countEntry+1,
         name: req.body.name,
         description: req.body.description,
         difficulty: req.body.difficulty,

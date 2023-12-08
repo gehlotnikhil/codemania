@@ -75,7 +75,7 @@ function Navbar() {
                 <Link className={`nav-link text-dark ${navItemsDisplay}`} to="/playground">Playground</Link>
               </li>
               <li className="nav-item">
-                <Link className={`nav-link  text-dark ${navItemsDisplay}`} aria-disabled="false" to="/question">Question</Link>
+                <Link className={`nav-link  text-dark ${navItemsDisplay}`} aria-disabled="false" to="/problem">Problem</Link>
               </li>
             </ul>
           </div>

@@ -1,6 +1,8 @@
-import React from 'react'
+import React,{useState} from 'react'
+
 
 function Playground() {
+  const [outputOfCode,setOutputOfCode]= useState("")
   return (
     <div className='container'>
       {/* Intro */}
@@ -26,7 +28,7 @@ function Playground() {
         <div className=' bg-dark py-1 px-1 d-flex '>
           <button type="button" className='btn btn-success mx-2'>Output</button>
         </div>
-        <textarea id="editor-output" placeholder="" rows="3" value=""></textarea>
+        <textarea id="editor-output" placeholder="" rows="3" value={outputOfCode} ></textarea>
       </div>
 
       <div id="editor-container">

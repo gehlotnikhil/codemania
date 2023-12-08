@@ -1,8 +1,13 @@
 import React from 'react'
-
+import Question from "../component/Question"
 function Home() {
+  
   return (
-    <div>Home</div>
+    <div>
+      <div className="container">
+        <Question/>
+      </div>
+    </div>
   )
 }
 
