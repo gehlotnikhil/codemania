@@ -21,6 +21,7 @@ function Question() {
 
             {
                 question.map((n) => {
+                    console.log("check-",n.name)
                     return <QuestionItem Squestion={n} key={n._id} />
                 })
             }

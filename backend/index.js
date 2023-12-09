@@ -1,9 +1,13 @@
 const express = require("express")
 const connect =  require("./db")
+var cors = require("cors")
+
 connect()
 
 const app = express()
+
 app.use(express.json())
+app.use(cors())
 app.use("/api/auth/",require("./router/auth"))
 app.use("/api/question/",require("./router/question"))
 app.use("/api/check/",require("./router/check"))
