@@ -33,7 +33,11 @@ router.post("/create",[
     body("sampleOutput2","Please fill the sampleOutput2 Field").exists(),
     body("sampleOutput3","Please fill the sampleOutput3 Field").exists(),
     body("accepted","Please fill the accepted Field").exists(),
-    body("submission","Please fill the submission Field").exists()
+    body("submission","Please fill the submission Field").exists(),
+    body("like","Please fill the like Field").exists(),
+    body("dislike","Please fill the dislike Field").exists(),
+    body("constraint1","Please fill the constraint1 Field").exists(),
+    body("constraint2","Please fill the constraint2 Field").exists()
 ], async (req, res) => {
     const error = validationResult(req)
     // after checking credential, if error occur then execute if statement
@@ -71,7 +75,11 @@ router.post("/create",[
         sampleOutput2: req.body.sampleOutput2,
         sampleOutput3: req.body.sampleOutput3,
         accepted: req.body.accepted,
-        submission: req.body.submission
+        submission: req.body.submission,
+        like:req.body.like,
+        dislike:req.body.dislike,
+        constraint1:req.body.constraint1,
+        constraint2:req.body.constraint2
     })
     try {
         const result = await question.save()

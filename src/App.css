@@ -134,3 +134,18 @@ body{
 
 
 
+
+element.style {
+  height: 385px;
+}
+#editor-question {
+  width: 100%;
+  max-height: 61vh;
+  height: 61vh;
+  min-height: 61vh;
+  font-size: 16px;
+  border: none;
+  outline: none;
+  padding: 10px;
+  box-sizing: border-box;
+}

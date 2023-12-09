@@ -84,6 +84,22 @@ const questionSchema = new mongoose.Schema({
     submission:{
         type:String,
         required: true
+    },
+    like:{
+        type:Number,
+        required:true
+    },
+    dislike:{
+        type:Number,
+        required:true
+    },
+    constraint1:{
+        type:String,
+        required:true
+    },
+    constraint2:{
+        type:String,
+        required:true
     }
 })
 module.exports = mongoose.model("Question",questionSchema)
