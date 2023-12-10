@@ -10,7 +10,7 @@
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
-  }
+  } 
 }
 
 .App-header {
@@ -54,10 +54,13 @@ font-size: 22px;
 }
 
 
+.nav-link {
+    margin: 0px 49px;
+}
+
 .nav-items{
   box-sizing: border-box;
   height: 56px;
-  width: 70%;
   margin-left: 26px;
   max-width: 1440px;
   display: flex;
@@ -135,9 +138,6 @@ body{
 
 
 
-element.style {
-  height: 385px;
-}
 #editor-question {
   width: 100%;
   max-height: 61vh;

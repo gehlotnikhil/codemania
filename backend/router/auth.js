@@ -1,34 +1,56 @@
 const express = require("express")
 const router = express.Router()
 const User = require("../model/User")
-const Admin = require("../model/Admin")
 const { body, validationResult } = require("express-validator")
+const bcrypt = require("bcryptjs")
+const jwt = require("jsonwebtoken")
 
+const JWT_Secret = "NikhilGehlot"
 
-//Route 1: Authenticate the user
-router.get("/login", [
+router.post("/login", [
     body("email", "Please Enter a Email in the Field").isEmail(),
     body("password", "Please Enter Your Password").exists()
 ], async (req, res) => {
+    let success = false
     const error = validationResult(req)
     // after checking credential, if error occur then execute if statement
     if (!error.isEmpty()) {
-        return res.status(403).json({error: error.array() })
+        return res.status(403).json({ success,error: error.array() })
     }
-    //checking email is exist or not 
-    const user = await User.findOne({ email: req.body.email })
-    // if email is unable to find
-    if (!user) {
-        return res.status(401).send("E-Please provide correct Credential")
+    const { email, password } = req.body;
+    try {
+        //checking email is exist or not 
+        const user = await User.findOne({ email: req.body.email })
+        // if email is unable to find
+        if (!user) {
+            return res.status(401).send("E-Please provide correct Credential")
+        }
+        console.log(user)
+
+        const passwordCompare = await bcrypt.compare(password, user.password)
+        //if password is wrong then if block execute
+        if (!passwordCompare) {
+            return res.status(410).json({ success: success, error: "Please enter the correct Credential" })
+        }
+        // sending token
+        const data = {
+            users: {
+                id: user.id
+            }
+        }
+        const authToken = await jwt.sign(data, JWT_Secret)
+        success = true
+        res.send({ success, authToken, body: req.body,username:user.username })
+        console.log(authToken)
     }
-    console.log(user)
-    const password = (user.password === req.body.password ? true : null)
-    if (!password) {
-        // if password is wrong
-        return res.status(401).send("P-Please provide correct Credential")
+    catch (err) {
+        for (field in err.errors) {
+            console.log(err.errors[field])
+        }
+        return res.status(407).send(err)
     }
-    res.send(user)
 })
+
 
 //Route 2: Create a user
 router.post("/register", [
@@ -40,38 +62,51 @@ router.post("/register", [
     body("institude", "Please Enter a institude").exists(),
 
 ], async (req, res) => {
+    let success = false
     const error = validationResult(req)
     // after checking credential, if error occur then execute if statement
     if (!error.isEmpty()) {
-        return res.status(403).json({error: error.array() })
+        return res.status(403).json({ success, error: error.array() })
     }
 
 
     const user = await User.findOne({ email: req.body.email })
     console.log(user)
-    if(user){
-       return res.status(410).send("This Email Already Exist")
+    if (user) {
+        return res.status(410).send({ success, error: "This Email Already Exist" })
     }
+    let salt = await bcrypt.genSalt(10)
+    let secPasswd = await bcrypt.hash(req.body.password, salt)
+
     // create new user
     const u1 = new User({
         name: req.body.name,
         username: req.body.username,
         email: req.body.email,
-        password: req.body.password,
+        password: secPasswd,
         age: parseInt(req.body.age),
         institude: req.body.institude
     })
+    const data = {
+        users: {
+            id: u1.id
+        }
+    }
+    console.log("data----", data)
+    const authToken = jwt.sign(data, JWT_Secret)
+    console.log("authToken---", authToken)
     try {
         const result = await u1.save()
         console.log(result)
-        res.send(result)
+        success = true
+        res.send({ success, authToken, body: req.body,username:user.username })
     }
     catch (err) {
         console.log(err)
         for (field in err.errors) {
             console.log(err.errors[field])
         }
-        res.status(409).send("Internal Server Error")
+        res.status(409).send({ success, error: err })
     }
 })
 
@@ -97,30 +132,6 @@ router.get("/update/:id", async (req, res) => {
     res.send(result)
 })
 
-//Route 4: Authenticate the admin 
-router.get("/admin", [
-    body("email", "Please Enter a Email in the Field").isEmail(),
-    body("password", "Please Enter Your Password").exists()
-], async (req, res) => {
-    const error = validationResult(req)
-    // after checking credential, if error occur then execute if statement
-    if (!error.isEmpty()) {
-        return res.status(403).json({error: error.array() })
-    }
-
-    const admin = await Admin.findOne({ email: req.body.email })
-    if (!admin) {
-        // if email is unable to find
-        return res.status(401).send("E-Please provide correct Credential")
-    }
-    console.log(admin)
-    const password = (admin.password === req.body.password ? true : null)
-    if (!password) {
-        // if password is wrong
-        return res.status(401).send("P-Please provide correct Credential")
-    }
-    res.send(admin)
-})
 
 
 module.exports = router

@@ -182,6 +182,19 @@ router.put("/update/:id",async (req,res)=>{
     }
 })
 
+// Route 4: Get Specific Question - GET Request
+router.get("/getspecificquestion/:no",async(req,res)=>{
+    let success = false
+    let result = await Question.findOne({no:parseInt(req.params.no)})
+    // if question is not found
+    if(!result){
+        return res.send({success,error:"Not Found"})
+    }
+    success = true
+    res.send({success,result: result})
+    
+})
+
 
 
 module.exports = router

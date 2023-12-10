@@ -1,118 +1,146 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>30 Days Calendar</title>
+const express = require("express")
+const router = express.Router()
+const User = require("../model/User")
+const Admin = require("../model/Admin")
+const { body, validationResult } = require("express-validator")
+const bcrypt = require("bcryptjs")
+const jwt = require("jsonwebtoken")
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background-color: #f4f4f4;
+
+const JWT_Secret = "NikhilGehlot"
+
+
+//Route 1: Authenticate the user
+router.get("/login", [
+    body("email", "Please Enter a Email in the Field").isEmail(),
+    body("password", "Please Enter Your Password").exists()
+], async (req, res) => {
+    const error = validationResult(req)
+    // after checking credential, if error occur then execute if statement
+    if (!error.isEmpty()) {
+        return res.status(403).json({error: error.array() })
+    }
+    //checking email is exist or not 
+    const user = await User.findOne({ email: req.body.email })
+    // if email is unable to find
+    if (!user) {
+        return res.status(401).send("E-Please provide correct Credential")
+    }
+    console.log(user)
+    const password = (user.password === req.body.password ? true : null)
+    if (!password) {
+        // if password is wrong
+        return res.status(401).send("P-Please provide correct Credential")
+    }
+    res.send(user)
+})
+
+//Route 2: Create a user
+router.post("/register", [
+    body("name", "Please Enter a Name").isLength({ min: 3 }),
+    body("username", "Please Enter a username").exists(),
+    body("email", "Please Enter a email").isEmail(),
+    body("password", "Please Enter a password").isLength({ min: 3 }),
+    body("age", "Please Enter a age").exists(),
+    body("institude", "Please Enter a institude").exists(),
+
+], async (req, res) => {
+    let success = false
+    const error = validationResult(req)
+    // after checking credential, if error occur then execute if statement
+    if (!error.isEmpty()) {
+        return res.status(403).json({success,error: error.array() })
     }
 
-    .calendar {
-      width: 400px;
-      border: 1px solid #ddd;
-      background-color: #fff;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
+
+    const user = await User.findOne({ email: req.body.email })
+    console.log(user)
+    if(user){
+       return res.status(410).send({success,error:"This Email Already Exist"})
+    }
+    let salt = await bcrypt.genSalt(10)
+    let secPasswd = await bcrypt.hash(req.body.password, salt)
+
+    // create new user
+    const u1 = new User({
+        name: req.body.name,
+        username: req.body.username,
+        email: req.body.email,
+        password: secPasswd,
+        age: parseInt(req.body.age),
+        institude: req.body.institude
+    })
+    const data = {
+        users: {
+            id: u1.id
+        }
+    }
+    console.log("data----",data)
+    const authToken = jwt.sign(data, JWT_Secret)
+    console.log("authToken---",authToken)
+    try {
+        const result = await u1.save()
+        console.log(result)
+        success = true
+        res.send({ success, authToken, body: req.body })
+    }
+    catch (err) {
+        console.log(err)
+        for (field in err.errors) {
+            console.log(err.errors[field])
+        }
+        res.status(409).send({success,error:err})
+    }
+})
+
+// Route 3: Update User Details 
+router.get("/update/:id", async (req, res) => {
+    let user = {}
+    if (req.body.name) {
+        user.name = req.body.name
+    }
+    if (req.body.username) {
+        user.username = req.body.username
+    }
+    if (req.body.institude) {
+        user.institude = req.body.institude
+    }
+    if (req.body.age) {
+        user.age = req.body.age
     }
 
-    .calendar-header {
-      background-color: #3498db;
-      color: #fff;
-      padding: 10px;
-      text-align: center;
-      font-size: 18px;
+
+    let result = await User.findByIdAndUpdate(req.params.id, { $set: user }, { $new: true })
+    console.log(result)
+    res.send(result)
+})
+
+//Route 4: Authenticate the admin 
+router.get("/admin", [
+    body("email", "Please Enter a Email in the Field").isEmail(),
+    body("password", "Please Enter Your Password").exists()
+], async (req, res) => {
+    let success = false
+    const error = validationResult(req)
+    // after checking credential, if error occur then execute if statement
+    if (!error.isEmpty()) {
+        return res.status(403).json({ success, error: error.array() })
     }
 
-    .days-of-week {
-      display: flex;
-      justify-content: space-between;
-      padding: 10px;
-      background-color: #f0f0f0;
+    const admin = await Admin.findOne({ email: req.body.email })
+    if (!admin) {
+        // if email is unable to find
+        return res.status(401).send({success,error:"E-Please provide correct Credential"})
     }
-
-    .day {
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 5px;
-      font-size: 14px;
-      cursor: pointer;
+    console.log(admin)
+    const password = (admin.password === req.body.password ? true : null)
+    if (!password) {
+        // if password is wrong
+        return res.status(401).send({success,error:"P-Please provide correct Credential"})
     }
+    success = true
+    res.send({success,admin})
+})
 
-    .day:hover {
-      background-color: #3498db;
-      color: #fff;
-    }
 
-    .calendar-body {
-      display: flex;
-      flex-wrap: wrap;
-      padding: 10px;
-    }
-
-    .day-number {
-      margin: auto;
-    }
-  </style>
-</head>
-<body>
-
-  <div class="calendar">
-    <div class="calendar-header">
-      30 Days Calendar
-    </div>
-
-    <div class="days-of-week">
-      <div class="day">Sun</div>
-      <div class="day">Mon</div>
-      <div class="day">Tue</div>
-      <div class="day">Wed</div>
-      <div class="day">Thu</div>
-      <div class="day">Fri</div>
-      <div class="day">Sat</div>
-    </div>
-
-    <div class="calendar-body" id="calendar-body">
-      <!-- Days will be dynamically generated here using JavaScript -->
-    </div>
-  </div>
-
-  <script>
-    // Get the current date
-    const currentDate = new Date();
-
-    // Get the container for the calendar body
-    const calendarBody = document.getElementById('calendar-body');
-
-    // Loop through the next 30 days and generate calendar elements
-    for (let i = 0; i < 30; i++) {
-      const day = new Date(currentDate);
-      day.setDate(currentDate.getDate() + i);
-
-      const dayElement = document.createElement('div');
-      dayElement.classList.add('day');
-      dayElement.innerHTML = `<span class="day-number">${day.getDate()}</span>`;
-
-      // Highlight today's date
-      if (day.toDateString() === currentDate.toDateString()) {
-        dayElement.classList.add('today');
-      }
-
-      calendarBody.appendChild(dayElement);
-    }
-  </script>
-
-</body>
-</html>
+module.exports = router

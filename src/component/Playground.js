@@ -1,8 +1,41 @@
-import React,{useState} from 'react'
+import React, { useState } from 'react'
 
 
 function Playground() {
-  const [outputOfCode,setOutputOfCode]= useState("")
+  const [loading, setLoading] = useState("d-none")
+  const [outputOfCode, setOutputOfCode] = useState("")
+  const host = "http://localhost:5000"
+
+  const [code, setCode] = useState({
+    code: "",
+    testcase: "",
+  })
+  const [result,setResult] = useState({
+    ans:"",
+
+  })
+  const onCodeSubmit = async (e) => {
+    setLoading("d-inline-block")
+    console.log(code)
+    console.log("1")
+    const response = await fetch(`${host}/api/check/playground/submit`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({code:code.code,testcase:code.testcase})
+    });
+    const json = await response.json();
+    console.log("--", json)
+    setResult({ans:json.outputOfTest.result})
+    setLoading("d-none")
+  }
+  const onChanges = (e) => {
+    setCode({ ...code, [e.target.name]: e.target.value })
+    console.log(code)
+  }
+
+
   return (
     <div className='container'>
       {/* Intro */}
@@ -17,26 +50,36 @@ function Playground() {
           your system.
         </p>
       </div>
-      <div id="editor-container">
-        <div className=' bg-dark py-1 px-1 d-flex '>
-          <button type="button" className='btn btn-success mx-2'>Java</button>
-          <button type="button" className='btn btn-warning ms-auto mx-2'>Run Code</button>
+      {/* IDE */}
+      <div>
+        <form>
+        <div id="editor-container">
+          <div className=' bg-dark py-1 px-1 d-flex '>
+            <button type="button" className='btn btn-success mx-2'>Java</button>
+            <button type="button"  onClick={onCodeSubmit} className='btn btn-warning ms-auto mx-2'>
+            <span style={{ marginRight: " 7px" }} className={`spinner-border spinner-border-sm ${loading}`} role="status" aria-hidden="true"></span>
+              <span>Run Code</span>
+              </button>
 
-        </div>
-        <textarea id="editor" placeholder="Write your Java code here..." rows="7"></textarea>
+          </div>
+          <textarea id="editor" onChange={onChanges} name='code' placeholder="Write your Java code here..." rows="7"></textarea>
 
-        <div className=' bg-dark py-1 px-1 d-flex '>
-          <button type="button" className='btn btn-success mx-2'>Output</button>
+          <div className=' bg-dark py-1 px-1 d-flex '>
+            <button type="button" className='btn btn-success mx-2'>Output</button>
+          </div>
+          <div style={{backgroundColor:"white",minHeight:"20vh"}}>
+            {result.ans}
+          </div>
         </div>
-        <textarea id="editor-output" placeholder="" rows="3" value={outputOfCode} ></textarea>
-      </div>
 
-      <div id="editor-container">
-        <div className=' bg-dark py-1 px-1 d-flex '>
-          <button type="button" className='btn btn-success mx-2'>Custom Input</button>
-        </div>
-        <textarea id="editor" placeholder={`like,
+        <div id="editor-container">
+          <div className=' bg-dark py-1 px-1 d-flex '>
+            <button type="button" className='btn btn-success mx-2'>Custom Input</button>
+          </div>
+          <textarea id="editor" onChange={onChanges} name='testcase' placeholder={`like,
 1 2 3 4 5`} rows="2"></textarea>
+        </div>
+        </form>
       </div>
       {/* About Java */}
       <div className="container">

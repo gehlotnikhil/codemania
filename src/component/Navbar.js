@@ -1,52 +1,48 @@
-import React,{useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useLocation } from "react-router-dom";
 import icon from '../images/codemania_icon.png'
+import profilePicture from '../images/profilePicture.png'
+import { useNavigate } from 'react-router-dom'
 
 function Navbar() {
+  const navigate = useNavigate()
+  const [loginDisplay, setLoginDisplay] = useState("")
+  const [registerDisplay, setRegisterDisplay] = useState("")
+  const [profileDisplay, setProfileDisplay] = useState("")
+  const [navItemsDisplay, setNavItemsDisplay] = useState("")
 
-  const [loginDisplay,setLoginDisplay] = useState("")
-  const [registerDisplay,setRegisterDisplay] = useState("")
-  const [adminDisplay,setAdminDisplay] = useState("")
-  const [profileDisplay,setProfileDisplay] = useState("")
-  const [navItemsDisplay,setNavItemsDisplay] = useState("")
-  
   let location = useLocation()
 
+  const handleClickSignOut = () => {
+    localStorage.setItem("token", "")
+    localStorage.setItem("username", "")
+  }
   useEffect(() => {
     console.log(location.pathname)
-    if(location.pathname === '/login'){
+    if (location.pathname === '/login') {
       setLoginDisplay("d-none")
       setRegisterDisplay("")
-      setAdminDisplay("")
       setProfileDisplay("d-none")
       setNavItemsDisplay("d-none")
     }
-    else if(location.pathname === '/register'){
+    else if (location.pathname === '/register') {
       setLoginDisplay("")
       setRegisterDisplay("d-none")
-      setAdminDisplay("")
       setProfileDisplay("d-none")
       setNavItemsDisplay("d-none")
     }
-    else if(location.pathname === '/admin'){
-      setLoginDisplay("")
-      setRegisterDisplay("")
-      setAdminDisplay("d-none")
-      setProfileDisplay("d-none")
-      setNavItemsDisplay("d-none")
-    }
-    else{
+
+    else {
       setLoginDisplay("d-none")
       setRegisterDisplay("d-none")
-      setAdminDisplay("d-none")
       setProfileDisplay("")
       setNavItemsDisplay("")
     }
     //setting title
-    if(location.pathname === "/"){
+    if (location.pathname === "/") {
       document.title = `Codemania | Home`
     }
-    else{
+    else {
       document.title = `Codemania | ${location.pathname.charAt(1).toUpperCase()}${location.pathname.substring(2)}`
     }
   }, [location])
@@ -74,22 +70,21 @@ function Navbar() {
               <li className="nav-item">
                 <Link className={`nav-link text-dark ${navItemsDisplay}`} to="/playground">Playground</Link>
               </li>
-              <li className="nav-item">
-                <Link className={`nav-link  text-dark ${navItemsDisplay}`} aria-disabled="false" to="/problem">Problem</Link>
-              </li>
+
             </ul>
           </div>
           <div className={`d-flex `}>
             <Link className={`btn mx-2 btn-outline-success text-dark border-dark ${loginDisplay}`} to="/login" role="button">Login</Link>
             <Link className={`btn mx-2 btn-outline-success text-dark border-dark ${registerDisplay}`} to="/register" role="button">Register</Link>
-            <Link className={`btn mx-2 btn-outline-success text-dark border-dark ${adminDisplay}`} to="/admin" role="button">Admin</Link>
             <div className={`btn-group dropstart ${profileDisplay} `}>
               <button type="button" className="btn btn-secondary profile-icon" data-bs-toggle="dropdown" aria-expanded="false">
-                N
+                {localStorage.getItem("username").charAt(0).toUpperCase()}
               </button>
               <ul className="dropdown-menu">
-                <li><Link className="dropdown-item" to="/profile">Profile</Link></li>
-                <li><Link className="dropdown-item" to="/login">Sign out</Link></li>
+                <li><img style={{ height: "43px", marginLeft: "5px" }} src={profilePicture} alt="" srcSet="" /> <span style={{marginLeft: "5px"}}>{localStorage.getItem("username")}</span></li>
+                <hr style={{margin:"0"}} className='my-2' />
+                <li style={{display:"flex",alignItems:"center"}}><Link className="dropdown-item" to="/profile">Profile</Link></li>
+                <li><Link className="dropdown-item" onClick={handleClickSignOut} to="/login" >Sign out</Link></li>
               </ul>
             </div>
           </div>
