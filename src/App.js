@@ -14,6 +14,9 @@ import SingleQuestion from './component/SingleQuestion';
 function App() {
   const host = "http://localhost:5000"
   
+  window.onbeforeunload = () => {
+    localStorage.removeItem('token');
+  }
   const initialQuestion = []
 
   const [question, setQuestion] = useState(initialQuestion)
