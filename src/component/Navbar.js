@@ -18,7 +18,7 @@ function Navbar() {
     localStorage.setItem("username", "")
   }
   useEffect(() => {
-    console.log(location.pathname)
+    console.log("location---",location.pathname)
     if (location.pathname === '/login') {
       setLoginDisplay("d-none")
       setRegisterDisplay("")

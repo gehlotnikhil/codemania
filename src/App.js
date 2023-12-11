@@ -1,5 +1,5 @@
 import './App.css';
-import {useState} from "react"
+import {useState,useEffect} from "react"
 import { BrowserRouter as Router, Routes, Route, } from "react-router-dom";
 import Navbar from './component/Navbar'
 import Home from './component/Home'
@@ -11,16 +11,29 @@ import Profile from "./component/Profile"
 import Footer from "./component/Footer"
 import NoteContext from "./context/notes/NoteContext"
 import SingleQuestion from './component/SingleQuestion';
+import {useDispatch} from "react-redux"
+import { bindActionCreators} from "redux"
+import {actionCreator} from './state/index'
+import {useSelector} from "react-redux"
 function App() {
   const host = "http://localhost:5000"
-  
+  const dispatch = useDispatch()
+  const balance = useSelector(state=>state.amount)
+  const isPositive = useSelector(state=>state.check)
+  const {depositMoney,withdrawMoney,checkResult} = bindActionCreators(actionCreator,dispatch)
+ 
   window.onbeforeunload = () => {
     localStorage.removeItem('token');
   }
   const initialQuestion = []
 
   const [question, setQuestion] = useState(initialQuestion)
-  
+  const [distributedQuestion, setDistributedQuestion] = useState(initialQuestion)
+  useEffect(() => {
+    console.log(question)
+    console.log(balance)
+  }, [question])
+   
    //Get Note
    const getQuestion = async() => {
     //API CALL
@@ -41,7 +54,7 @@ function App() {
 
   return (
     <>
-      <NoteContext.Provider value={{question,getQuestion}}>
+      <NoteContext.Provider value={{question,getQuestion,setDistributedQuestion,distributedQuestion}}>
         <Router>
           <Navbar />
           <Routes>
