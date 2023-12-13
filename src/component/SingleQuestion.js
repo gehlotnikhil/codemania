@@ -5,27 +5,32 @@ function SingleQuestion() {
   const [iserror, setIsError] = useState("")
   const [outputOfCode, setOutputOfCode] = useState("")
   const context = useContext(NoteContext)
-
-  const questionNo = localStorage.getItem("singleQuestionNo") - 1
+  const [tagClick, setTagClick] = useState(false)
+  const questionNo = singleQuestionNo - 1
   const host = "http://localhost:5000"
-  const [objQuestion, setObjQuestion] = useState(context.question[0])
-  
- 
+  const [objQuestion, setObjQuestion] = useState([])
+  const [code, setCode] = useState({
+    code: "",
+    isPassed: "",
+    result: "",
+    testcase1: "",
+    testcase2: "",
+    testcase3: "",
+    outputOfTestcase1: "",
+    outputOfTestcase2: "",
+    outputOfTestcase3: ""
+  })
+
+  var { singleQuestionNo } = context;
   useEffect(() => {
-    const m = localStorage.getItem("singleQuestionNo")
+    const m = context.singleQuestionNo
+    console.log(m)
     console.log("ak----", m)
     getSingleQuestion(m)
-    setCode({
-      ...code,
-      testcase1: objQuestion.testcase1,
-      testcase2: objQuestion.testcase2,
-      testcase3: objQuestion.testcase3,
-      outputOfTestcase1: objQuestion.outputOfTestcase1,
-      outputOfTestcase2: objQuestion.outputOfTestcase2,
-      outputOfTestcase3: objQuestion.outputOfTestcase3
-    })
+
   }, [])
-   const getSingleQuestion = async (no) => {
+  const getSingleQuestion = async (no) => {
+    console.log("get---", no)
     const response = await fetch(`${host}/api/question/getspecificquestion/${no}`, {
       method: "GET",
       headers: {
@@ -34,15 +39,25 @@ function SingleQuestion() {
       },
     });
     const json = await response.json();
+    setCode({
+      ...code,
+      testcase1: json.result.testcase1,
+      testcase2: json.result.testcase2,
+      testcase3: json.result.testcase3,
+      outputOfTestcase1: json.result.outputOfTestcase1,
+      outputOfTestcase2: json.result.outputOfTestcase2,
+      outputOfTestcase3: json.result.outputOfTestcase3
+    })
     console.log(typeof json, "json-", json)
     setObjQuestion(json.result)
   }
-  const [code, setCode] = useState({
-    code: "",
-    isPassed: "",
-    result: "",
-  })
 
+  const handleTagClick = () => {
+    if (tagClick === false)
+      setTagClick(true)
+    else
+      setTagClick(false)
+  }
 
   const onCodeSubmit = async (e) => {
     setLoading("d-inline-block")
@@ -130,7 +145,7 @@ function SingleQuestion() {
               <pre><span className={`${objQuestion.difficulty === "Easy" ? "text-success" : (objQuestion.difficulty === "Medium" ? "text-warning" : "text-danger")}`}>{objQuestion.difficulty}</span>   &#128077; {objQuestion.like}  &#128078; {objQuestion.dislike} </pre>
             </div>
             <div className="">
-              <pre>Company Tags: {objQuestion.companies}</pre>
+              <pre onClick={handleTagClick}>&#10148; Company Tags: {tagClick === true ? objQuestion.companies : ""}</pre>
             </div>
             <div className="">
               <p>{objQuestion.description}</p>

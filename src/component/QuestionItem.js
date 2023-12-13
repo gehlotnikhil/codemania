@@ -9,12 +9,14 @@ function QuestionItem(props) {
         console.log("hi")
         console.log(Squestion.name)
     }, [])
+    const context = useContext(NoteContext);
+    let {singleQuestionNo,setSingleQuestionNo} = context;
 
     const navigate = useNavigate()
 
     const clickOnQuestion = ()=>{
         console.log(Squestion+"----"+Squestion.no)
-        localStorage.setItem("singleQuestionNo",Squestion.no )
+        setSingleQuestionNo(Squestion.no)
         navigate("/singlequestion")
     }
     

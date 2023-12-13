@@ -21,7 +21,7 @@ function App() {
   const balance = useSelector(state=>state.amount)
   const isPositive = useSelector(state=>state.check)
   const {depositMoney,withdrawMoney,checkResult} = bindActionCreators(actionCreator,dispatch)
- 
+  const [singleQuestionNo,setSingleQuestionNo] = useState("")
   window.onbeforeunload = () => {
     localStorage.removeItem('token');
   }
@@ -54,7 +54,7 @@ function App() {
 
   return (
     <>
-      <NoteContext.Provider value={{question,getQuestion,setDistributedQuestion,distributedQuestion}}>
+      <NoteContext.Provider value={{singleQuestionNo,setSingleQuestionNo,question,getQuestion,setDistributedQuestion,distributedQuestion}}>
         <Router>
           <Navbar />
           <Routes>

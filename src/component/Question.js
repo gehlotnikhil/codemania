@@ -43,6 +43,7 @@ function Question() {
         console.log("ready----", question.length)
         setDistributedQuestion([question[0]])
         let n = Math.ceil(question.length / 10);
+        console.log("currentPage: ",n)
         if (page[2] === 1) {
             setBtnPrev("disabled");
         } else {

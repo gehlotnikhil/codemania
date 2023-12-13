@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+/questionAnswer
 /.pnp
 .pnp.js
 backend/node_modules/
