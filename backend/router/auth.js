@@ -99,7 +99,7 @@ router.post("/register", [
         const result = await u1.save()
         console.log(result)
         success = true
-        res.send({ success, authToken, body: req.body,username:user.username })
+        res.send({ success, authToken, body: req.body,username:u1.username, })
     }
     catch (err) {
         console.log(err)

@@ -5,6 +5,8 @@
 /questionAnswer
 /.pnp
 .pnp.js
+/*.java
+/*.class
 backend/node_modules/
 # testing
 /coverage

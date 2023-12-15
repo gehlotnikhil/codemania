@@ -46,6 +46,17 @@ function Navbar() {
       document.title = `Codemania | ${location.pathname.charAt(1).toUpperCase()}${location.pathname.substring(2)}`
     }
   }, [location])
+const [uname, setUname]= useState("")
+useEffect(() => {
+  try{
+    const t = localStorage.getItem("username")[0].toUpperCase();
+    console.log("t-------",t)
+    setUname(t)
+  }
+  catch(err){
+    setUname("")
+  }
+}, [location])
 
 
 
@@ -78,7 +89,7 @@ function Navbar() {
             <Link className={`btn mx-2 btn-outline-success text-dark border-dark ${registerDisplay}`} to="/register" role="button">Register</Link>
             <div className={`btn-group dropstart ${profileDisplay} `}>
               <button type="button" className="btn btn-secondary profile-icon" data-bs-toggle="dropdown" aria-expanded="false">
-                {localStorage.getItem("username").charAt(0).toUpperCase()}
+                {uname}
               </button>
               <ul className="dropdown-menu">
                 <li><img style={{ height: "43px", marginLeft: "5px" }} src={profilePicture} alt="" srcSet="" /> <span style={{marginLeft: "5px"}}>{localStorage.getItem("username")}</span></li>

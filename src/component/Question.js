@@ -40,16 +40,16 @@ function Question() {
 
         console.log("q----", localStorage.getItem("token"))
         // eslint-disable-next-line
-        console.log("ready----", question.length)
+        console.log("ready----", context.question.length)
         setDistributedQuestion([question[0]])
-        let n = Math.ceil(question.length / 10);
+        let n = Math.ceil(context.question.length / 10);
         console.log("currentPage: ",n)
         if (page[2] === 1) {
             setBtnPrev("disabled");
         } else {
             setBtnPrev("");
         }
-        if (page[2] === n) {
+        if (n <= page[2]) {
             setBtnNext("disabled");
         } else {
             setBtnNext("");
@@ -57,13 +57,18 @@ function Question() {
 
     }, [])
     useEffect(() => {
-        let n = Math.ceil(question.length / 10);
+        let n = Math.ceil(context.question.length / 10);
+        if(n==0){
+            setBtnNext("");
+            setBtnPrev("disabled");
+            return;
+        }
         if (page[2] === 1) {
             setBtnPrev("disabled");
         } else {
             setBtnPrev("");
         }
-        if (page[2] === n) {
+        if (n <= page[2]) {
             setBtnNext("disabled");
         } else {
             setBtnNext("");

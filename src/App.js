@@ -23,7 +23,7 @@ function App() {
   const {depositMoney,withdrawMoney,checkResult} = bindActionCreators(actionCreator,dispatch)
   const [singleQuestionNo,setSingleQuestionNo] = useState("")
   window.onbeforeunload = () => {
-    localStorage.removeItem('token');
+    localStorage.clear();
   }
   const initialQuestion = []
 
