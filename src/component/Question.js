@@ -85,7 +85,7 @@ function Question() {
 
     return (
         <>
-            <div className="  my-1" style={{ width: "73%" }}>
+            <div className="  my-3" style={{ width: "73%" }}>
                 <div className=' row' style={{ border: "1px solid black" }}>
                     <div className="container col-1" style={{ border: "2px solid black" }}>No.</div>
                     <div className="container col-7" style={{ border: "2px solid black" }}>Title</div>

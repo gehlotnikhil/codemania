@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import image from "../images/coding.png";
+// import image from "../images/coding.png";
 import { useNavigate } from 'react-router-dom'
 
 function Register() {
@@ -64,7 +64,7 @@ function Register() {
   }
  
   return (
-    <div style={{ background: `url(${image}) center center/cover no-repeat`, height: "100vh" }}>
+    <div style={{ background: `url("../images/coding.png") center center/cover no-repeat`, height: "100vh" }}>
       <div className="container">
         <h1 style={{ fontFamily: "Pacifico, cursive", textAlign: "center", color: "red", fontSize: "6rem" }}>Codemania</h1>
       </div>

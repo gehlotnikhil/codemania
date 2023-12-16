@@ -1,5 +1,5 @@
 import React,{useState} from 'react'
-import image from "../images/coding.png";
+// import image from "../images/coding.png";
 import { useNavigate } from 'react-router-dom'
 
 function Login() {
@@ -37,7 +37,7 @@ function Login() {
       alert("Failed to Login")
   }
   return (
-    <div style={{ background: `url(${image}) center center/cover no-repeat`, height: "100vh" }}>
+    <div style={{ background: `url("../images/coding.png") center center/cover no-repeat`, height: "100vh" }}>
       <div className="container">
         <h1 style={{ textAlign: "center", color: "red", fontSize: "6rem", fontFamily: "Pacifico, cursive" }}>Codemania</h1>
       </div>

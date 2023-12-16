@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useLocation } from "react-router-dom";
-import icon from '../images/codemania_icon.png'
-import profilePicture from '../images/profilePicture.png'
+// import icon from '../images/codemania_icon.png'
+// import profilePicture from '../images/profilePicture.png'
 import { useNavigate } from 'react-router-dom'
 
 function Navbar() {
@@ -65,7 +65,7 @@ useEffect(() => {
     <div className='main-nav'>
       <nav className="navbar navbar-expand-lg bg-nav ">
         <div className="container-fluid">
-          <img src={icon} height="56px" />
+          <img src="../images/codemania_icon.png" height="56px" />
           <Link className="navbar-brand text-danger platform_name"  >Codemania</Link>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
@@ -92,7 +92,7 @@ useEffect(() => {
                 {uname}
               </button>
               <ul className="dropdown-menu">
-                <li><img style={{ height: "43px", marginLeft: "5px" }} src={profilePicture} alt="" srcSet="" /> <span style={{marginLeft: "5px"}}>{localStorage.getItem("username")}</span></li>
+                <li><img style={{ height: "43px", marginLeft: "5px" }} src="../images/profilePicture.png" alt="" srcSet="" /> <span style={{marginLeft: "5px"}}>{localStorage.getItem("username")}</span></li>
                 <hr style={{margin:"0"}} className='my-2' />
                 <li style={{display:"flex",alignItems:"center"}}><Link className="dropdown-item" to="/profile">Profile</Link></li>
                 <li><Link className="dropdown-item" onClick={handleClickSignOut} to="/login" >Sign out</Link></li>
