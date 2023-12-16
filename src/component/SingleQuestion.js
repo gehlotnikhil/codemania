@@ -1,7 +1,9 @@
 import NoteContext from '../context/notes/NoteContext'
 import React, { useEffect, useState, useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 function SingleQuestion() {
+  const navigate = useNavigate()
   const [iserror, setIsError] = useState("")
   const [outputOfCode, setOutputOfCode] = useState("")
   const context = useContext(NoteContext)
@@ -24,8 +26,11 @@ function SingleQuestion() {
   var { singleQuestionNo } = context;
   useEffect(() => {
     const m = context.singleQuestionNo
-    console.log(m)
-    console.log("ak----", m)
+    //if m is not found then it will go back to Home Page
+    if(!m){
+      navigate("/")
+    }
+    console.log("ak----"+ m)
     getSingleQuestion(m)
 
   }, [])

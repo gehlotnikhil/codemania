@@ -22,9 +22,7 @@ function App() {
   const isPositive = useSelector(state=>state.check)
   const {depositMoney,withdrawMoney,checkResult} = bindActionCreators(actionCreator,dispatch)
   const [singleQuestionNo,setSingleQuestionNo] = useState("")
-  window.onbeforeunload = () => {
-    localStorage.clear();
-  }
+
   const initialQuestion = []
 
   const [question, setQuestion] = useState(initialQuestion)

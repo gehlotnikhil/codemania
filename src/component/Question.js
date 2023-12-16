@@ -3,15 +3,15 @@ import NoteContext from '../context/notes/NoteContext'
 import { useNavigate } from 'react-router-dom'
 import QuestionItem from './QuestionItem'
 function Question() {
-    const [page, setPage] = useState([1, 10, 1])
+    const [page, setPage] = useState([1, 20, 1])
     const [btnPrev, setBtnPrev] = useState("")
     const [btnNext, setBtnNext] = useState("")
     const onHandlePrev = () => {
         let a1 = page[0];
         let a2 = page[1];
         let a3 = page[2];
-        a1 = a1 - 10;
-        a2 = a2 - 10;
+        a1 = a1 - 20;
+        a2 = a2 - 20;
         a3 = a3 - 1
         setPage([a1, a2, a3]);
     }
@@ -19,8 +19,8 @@ function Question() {
         let a1 = page[0];
         let a2 = page[1];
         let a3 = page[2];
-        a1 = a1 + 10;
-        a2 = a2 + 10;
+        a1 = a1 + 20;
+        a2 = a2 + 20;
         a3 = a3 + 1
         setPage([a1, a2, a3]);
     }
@@ -42,7 +42,7 @@ function Question() {
         // eslint-disable-next-line
         console.log("ready----", context.question.length)
         setDistributedQuestion([question[0]])
-        let n = Math.ceil(context.question.length / 10);
+        let n = Math.ceil(context.question.length / 20);
         console.log("currentPage: ",n)
         if (page[2] === 1) {
             setBtnPrev("disabled");
@@ -57,7 +57,7 @@ function Question() {
 
     }, [])
     useEffect(() => {
-        let n = Math.ceil(context.question.length / 10);
+        let n = Math.ceil(context.question.length / 20);
         if(n==0){
             setBtnNext("");
             setBtnPrev("disabled");
