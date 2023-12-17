@@ -11,6 +11,7 @@ import Profile from "./component/Profile"
 import Footer from "./component/Footer"
 import NoteContext from "./context/notes/NoteContext"
 import SingleQuestion from './component/SingleQuestion';
+import SingleStudyItem from "./component/SingleStudyItem"
 import {useDispatch} from "react-redux"
 import { bindActionCreators} from "redux"
 import {actionCreator} from './state/index'
@@ -27,6 +28,8 @@ function App() {
 
   const [question, setQuestion] = useState(initialQuestion)
   const [distributedQuestion, setDistributedQuestion] = useState(initialQuestion)
+  const [itemPageSize, setItemPageSize] = useState(20)
+
   useEffect(() => {
     console.log(question)
     console.log(balance)
@@ -47,12 +50,13 @@ function App() {
    console.log(typeof json,"json-",json)
    setQuestion(json)
  }
+ const [questionItemNo, setQuestionItemNo] = useState(1)
  
   
 
   return (
     <>
-      <NoteContext.Provider value={{singleQuestionNo,setSingleQuestionNo,question,getQuestion,setDistributedQuestion,distributedQuestion}}>
+      <NoteContext.Provider value={{itemPageSize,setItemPageSize,questionItemNo,setQuestionItemNo,singleQuestionNo,setSingleQuestionNo,question,getQuestion,setDistributedQuestion,distributedQuestion}}>
         <Router>
           <Navbar />
           <Routes>
@@ -63,6 +67,7 @@ function App() {
             <Route exact path="/register" element={<Register />} />
             <Route exact path="/profile" element={<Profile />} />
             <Route exact path="/singlequestion" element={<SingleQuestion />} />
+            <Route exact path="/singlestudyitem" element={<SingleStudyItem />} />
           </Routes>
           <Footer />
         </Router>
