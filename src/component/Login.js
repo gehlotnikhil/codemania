@@ -1,7 +1,7 @@
 import React,{useState} from 'react'
 // import image from "../images/coding.png";
 import { useNavigate } from 'react-router-dom'
-
+import { toast } from 'react-toastify';
 function Login() {
   const navigate = useNavigate()
   const host = "http://localhost:5000"
@@ -29,12 +29,18 @@ function Login() {
       //save the token and redirect
       localStorage.setItem("token", json.authToken)
       localStorage.setItem("username",json.username)
+      localStorage.setItem("name",json.body.name)
+      localStorage.setItem("institude",json.body.institude)
+      localStorage.setItem("email",json.body.email)
+      localStorage.setItem("mobile",json.body.mobile)
+      localStorage.setItem("address",json.body.address)
+      localStorage.setItem("id",json.body.id)
 
       navigate("/")
-      alert("Login Successfully")
+      toast.success("Login Successfully")
     }
     else
-      alert("Failed to Login")
+      toast.error("Failed to Login")
   }
   return (
     <div style={{ background: `url("../images/coding.png") center center/cover no-repeat`, height: "100vh" }}>

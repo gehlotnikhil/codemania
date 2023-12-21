@@ -1,4 +1,41 @@
 import React from 'react'
+import { useContext, useEffect } from "react"
+import NoteContext from '../context/notes/NoteContext'
+import { Link ,useNavigate} from "react-router-dom";
+
+function StudyQuestionItem(props) {
+    const { Squestion } = props;
+    useEffect(() => {
+        
+        console.log("hi")
+        console.log(Squestion.name)
+    }, [])
+    const context = useContext(NoteContext);
+    let {singleQuestionNo,setSingleQuestionNo} = context;
+
+    const navigate = useNavigate()
+
+    const clickOnQuestion = (e)=>{
+        console.log(Squestion+"----"+Squestion.no)
+        setSingleQuestionNo(Squestion.no)
+        navigate("/singlequestion")
+    }
+    
+
+
+
+    return (
+        <>
+            <div className=' row ' style={{ border: "1px solid black" }}>
+                <div  className={`container col-8 `} style={{padding:"2px 2rem",border: "1px solid black",borderRight:"none ", textDecoration: "none", color: "black"}}><Link  className='question-hover' onClick={clickOnQuestion}   style={{color:"black",textDecoration:"none"}} to ="/singlequestion" >{Squestion.name}</Link></div>
+                <div className={`container col-4 ${Squestion.difficulty === "Easy"?"text-success":(Squestion.difficulty==="Medium"?"text-warning":"text-danger")}`} style={{padding:"2px 2rem",border: "1px solid black",borderLeft:"none ", textDecoration: "none", color: "black" }}>{Squestion.difficulty}</div>
+            </div>
+        </>
+    )
+}
+
+export default StudyQuestionItem
+import React from 'react'
 import { useContext, useEffect, useState } from 'react'
 import NoteContext from '../context/notes/NoteContext'
 import StudyQuestionItem from './StudyQuestionItem';
@@ -23,15 +60,7 @@ function SingleStudyItem() {
     console.log("no---", context.questionItemNo)
     console.log("studyQuestion----", context.question)
     console.log("pagesize----", itemPageSize)
-    changeCurrentItem()
-  }, [])
-  const changeCurrentItem = (e)=>{
-    let select = context.questionItemNo
-    if(e){
-    console.log(e,"nikhil---n--")
-    select = e;
-    }
-    switch (parseInt(select)) {
+    switch (parseInt(context.questionItemNo)) {
       case 1: setStudyItemRelated({
         topR: "d-none",
         code25: "",
@@ -105,10 +134,7 @@ function SingleStudyItem() {
         setImgS("images/google2.png");
         break;
     }
-  }
-  const handleLinkCLick = ()=>{
-
-  }
+  }, [])
 
 
   return (
@@ -144,27 +170,27 @@ function SingleStudyItem() {
             <h5 className=' my-3' style={{ fontWeight: "500" }}>Related</h5>
             <div className={`mx-2 d-flex my-2 ${studyItemRelated.topR}`} style={{ margin: "0.8rem 0.5rem", flexDirection: "row" }}>
               <img src="images/question_item_4.png" alt="" height="50px" width="50px" />
-              <Link onClick={()=>changeCurrentItem(1)}  className="mx-2 my-2">Top Interview 50</Link>
+              <Link   className="mx-2 my-2">Top Interview 50</Link>
             </div>
             <div className={`mx-2 d-flex my-2 ${studyItemRelated.code25}`} style={{ margin: "0.8rem 0.5rem", flexDirection: "row" }}>
               <img src="images/question_item_1.png" alt="" height="50px" width="50px" />
-              <Link onClick={()=>changeCurrentItem(2)}  className="mx-2 my-2">Codemania-25</Link>
+              <Link   className="mx-2 my-2">Codemania-25</Link>
             </div>
             <div className={`mx-2 d-flex my-2 ${studyItemRelated.javaR}`} style={{ margin: "0.8rem 0.5rem", flexDirection: "row" }}>
               <img src="images/java1.png" alt="" height="50px" width="50px" />
-              <Link onClick={()=>changeCurrentItem(3)}  className="mx-2 my-2">3o days of Java</Link>
+              <Link   className="mx-2 my-2">3o days of Java</Link>
             </div>
             <div className={`mx-2 d-flex my-2 ${studyItemRelated.dynamicR}`} style={{ margin: "0.8rem 0.5rem", flexDirection: "row" }}>
               <img src="images/question_item_4.png" alt="" height="50px" width="50px" />
-              <Link onClick={()=>changeCurrentItem(4)}  className="mx-2 my-2 ">Dyanmic Programming</Link>
+              <Link   className="mx-2 my-2 ">Dyanmic Programming</Link>
             </div>
             <div className={`mx-2 d-flex my-2 ${studyItemRelated.amazonR}`} style={{ margin: "0.8rem 0.5rem", flexDirection: "row" }}>
               <img src="images/question_item_5.png" alt="" height="50px" width="50px" />
-              <Link onClick={()=>changeCurrentItem(5)}  className="mx-2 my-2">Amazon Spring 23 High Frequency</Link>
+              <Link  className="mx-2 my-2">Amazon Spring 23 High Frequency</Link>
             </div>
-            <div className={`mx-2 d-flex my-3 ${studyItemRelated.googleR}`} style={{ margin: "0.8rem 0.8rem", flexDirection: "row", position: "relative", top: "-12px" }}>
+            <div className={`mx-2 d-flex my-2 ${studyItemRelated.googleR}`} style={{ margin: "0.8rem 0.5rem", flexDirection: "row", position: "relative", top: "-12px" }}>
               <img src="images/question_item_6.png" alt="" height="50px" width="50px" />
-              <Link onClick={()=>changeCurrentItem(6)} className="mx-2 my-1">Google Spring 23 High Frequency</Link>
+              <Link  className="mx-2 my-1">Google Spring 23 High Frequency</Link>
             </div>
           </div>
         </div>

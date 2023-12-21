@@ -25,7 +25,7 @@ router.post("/login", [
         if (!user) {
             return res.status(401).send("E-Please provide correct Credential")
         }
-        console.log(user)
+        console.log("details: "+user)
 
         const passwordCompare = await bcrypt.compare(password, user.password)
         //if password is wrong then if block execute
@@ -40,6 +40,13 @@ router.post("/login", [
         }
         const authToken = await jwt.sign(data, JWT_Secret)
         success = true
+        req.body.id = user.id
+        req.body.name = user.name
+        req.body.institude = user.institude
+        req.body.age = user.age
+        req.body.mobile = user.mobile || "Unknown"
+        req.body.address = user.address || "Unknown"
+        console.log("req body == ",req.body)
         res.send({ success, authToken, body: req.body,username:user.username })
         console.log(authToken)
     }
@@ -99,7 +106,10 @@ router.post("/register", [
         const result = await u1.save()
         console.log(result)
         success = true
-        res.send({ success, authToken, body: req.body,username:u1.username, })
+        req.body.mobile = result.mobile || "Unknown"
+        req.body.address = result.address || "Unknown"
+        req.body.id = result.id
+        res.send({ success, authToken, body: req.body,username:u1.username })
     }
     catch (err) {
         console.log(err)
@@ -111,7 +121,7 @@ router.post("/register", [
 })
 
 // Route 3: Update User Details 
-router.get("/update/:id", async (req, res) => {
+router.put("/update/:id", async (req, res) => {
     let user = {}
     if (req.body.name) {
         user.name = req.body.name
@@ -125,11 +135,38 @@ router.get("/update/:id", async (req, res) => {
     if (req.body.age) {
         user.age = req.body.age
     }
+    if(req.body.mobile){
+        user.mobile = req.body.mobile
+    }
+    if(req.body.address){
+        user.address = req.body.address
+    }
 
 
     let result = await User.findByIdAndUpdate(req.params.id, { $set: user }, { $new: true })
     console.log(result)
     res.send(result)
+})
+//Route 2: Create a user
+router.post("/getdetails/:name", async(req,res)=>{
+    try{
+        success = false
+        let a = await User.findOne({username:req.params.name}).select("-password")
+        // if username is not found
+        if(!a){
+            return res.send({success,result:"Username not found"})
+        }
+        success=  true
+        res.send({success,result:a})
+
+    }
+    catch (err) {
+        console.log(err)
+        for (field in err.errors) {
+            console.log(err.errors[field])
+        }
+        res.status(409).send({ success, error: err })
+    }
 })
 
 

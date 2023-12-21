@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState,useContext } from 'react'
 import { Link, useLocation } from "react-router-dom";
 // import icon from '../images/codemania_icon.png'
 // import profilePicture from '../images/profilePicture.png'
 import { useNavigate } from 'react-router-dom'
+import NoteContext from '../context/notes/NoteContext';
 
 function Navbar() {
   const navigate = useNavigate()
@@ -10,15 +11,18 @@ function Navbar() {
   const [registerDisplay, setRegisterDisplay] = useState("")
   const [profileDisplay, setProfileDisplay] = useState("")
   const [navItemsDisplay, setNavItemsDisplay] = useState("")
-
+  const [searchDisplay, setSearchDisplay] = useState("")
+ const context = useContext(NoteContext)
+ let {goToCurrent} = context;
   let location = useLocation()
 
   const handleClickSignOut = () => {
-    localStorage.setItem("token", "")
-    localStorage.setItem("username", "")
+
+
+    localStorage.clear();
   }
   useEffect(() => {
-    console.log("location---",location.pathname)
+    console.log("location---", location.pathname)
     if (location.pathname === '/login') {
       setLoginDisplay("d-none")
       setRegisterDisplay("")
@@ -38,6 +42,13 @@ function Navbar() {
       setProfileDisplay("")
       setNavItemsDisplay("")
     }
+
+    if(location.pathname === '/profile'){
+      setSearchDisplay("")
+    }
+    else{
+      setSearchDisplay("d-none")
+    }
     //setting title
     if (location.pathname === "/") {
       document.title = `Codemania | Home`
@@ -46,17 +57,17 @@ function Navbar() {
       document.title = `Codemania | ${location.pathname.charAt(1).toUpperCase()}${location.pathname.substring(2)}`
     }
   }, [location])
-const [uname, setUname]= useState("")
-useEffect(() => {
-  try{
-    const t = localStorage.getItem("username")[0].toUpperCase();
-    console.log("t-------",t)
-    setUname(t)
-  }
-  catch(err){
-    setUname("")
-  }
-}, [location])
+  const [uname, setUname] = useState("")
+  useEffect(() => {
+    try {
+      const t = localStorage.getItem("username")[0].toUpperCase();
+      console.log("t-------", t)
+      setUname(t)
+    }
+    catch (err) {
+      setUname("")
+    }
+  }, [location])
 
 
 
@@ -79,11 +90,26 @@ useEffect(() => {
                 <Link className={`nav-link text-dark ${navItemsDisplay}`} to="/about">About </Link>
               </li>
               <li className="nav-item">
-                <Link className={`nav-link text-dark ${navItemsDisplay}`} to="/playground">Playground</Link>
+                <Link style={{marginRight:"0"}}  className={`nav-link text-dark ${navItemsDisplay}`} to="/playground">Playground</Link>
               </li>
 
             </ul>
           </div>
+          <div>
+            <a className={`${goToCurrent}`} style={{margin:"0",}}>Go to Current Profile{"->"}</a>
+          </div>
+          <div className={`d-flex ${searchDisplay}`}style={{ flexDirection: "row", marginRight: "20px" }}>
+            <div class="topnav">
+              <div class="search-container">
+                <form >
+                  <input type="text" placeholder="Search Profile" name="search" />
+                  <button type="submit"><i class="fa fa-search"></i></button>
+                </form>
+              </div>
+            </div>
+          </div>
+
+
           <div className={`d-flex `}>
             <Link className={`btn mx-2 btn-outline-success text-dark border-dark ${loginDisplay}`} to="/login" role="button">Login</Link>
             <Link className={`btn mx-2 btn-outline-success text-dark border-dark ${registerDisplay}`} to="/register" role="button">Register</Link>
@@ -92,9 +118,9 @@ useEffect(() => {
                 {uname}
               </button>
               <ul className="dropdown-menu">
-                <li><img style={{ height: "43px", marginLeft: "5px" }} src="../images/profilePicture.png" alt="" srcSet="" /> <span style={{marginLeft: "5px"}}>{localStorage.getItem("username")}</span></li>
-                <hr style={{margin:"0"}} className='my-2' />
-                <li style={{display:"flex",alignItems:"center"}}><Link className="dropdown-item" to="/profile">Profile</Link></li>
+                <li><img style={{ height: "43px", marginLeft: "5px" }} src="../images/profilePicture.png" alt="" srcSet="" /> <span style={{ marginLeft: "5px" }}>{localStorage.getItem("username")}</span></li>
+                <hr style={{ margin: "0" }} className='my-2' />
+                <li style={{ display: "flex", alignItems: "center" }}><Link className="dropdown-item" to="/profile">Profile</Link></li>
                 <li><Link className="dropdown-item" onClick={handleClickSignOut} to="/login" >Sign out</Link></li>
               </ul>
             </div>

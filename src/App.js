@@ -16,6 +16,7 @@ import {useDispatch} from "react-redux"
 import { bindActionCreators} from "redux"
 import {actionCreator} from './state/index'
 import {useSelector} from "react-redux"
+import Progess from './component/Progess';
 function App() {
   const host = "http://localhost:5000"
   const dispatch = useDispatch()
@@ -52,12 +53,13 @@ function App() {
  }
  const [questionItemNo, setQuestionItemNo] = useState(1)
  
-  
+  const [goToCurrent,setGoToCurrent] = useState("")
 
   return (
     <>
-      <NoteContext.Provider value={{itemPageSize,setItemPageSize,questionItemNo,setQuestionItemNo,singleQuestionNo,setSingleQuestionNo,question,getQuestion,setDistributedQuestion,distributedQuestion}}>
+      <NoteContext.Provider value={{goToCurrent,itemPageSize,setItemPageSize,questionItemNo,setQuestionItemNo,singleQuestionNo,setSingleQuestionNo,question,getQuestion,setDistributedQuestion,distributedQuestion}}>
         <Router>
+          <Progess/>
           <Navbar />
           <Routes>
             <Route exact path="/" element={<Home />} />
