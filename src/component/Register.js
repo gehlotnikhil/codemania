@@ -1,9 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState,useContext } from 'react'
 // import image from "../images/coding.png";
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify';
-
+import NoteContext from '../context/notes/NoteContext';
 function Register() {
+  const context = useContext(NoteContext)
+  let {original,setOriginal} = context
   const navigate = useNavigate();
   const host = "http://localhost:5000"
   const [credential, setCredential] = useState({
@@ -50,6 +52,15 @@ function Register() {
       localStorage.setItem("mobile",json.body.mobile)
       localStorage.setItem("address",json.body.address)
       localStorage.setItem("id",json.body.id)
+
+     
+      localStorage.setItem("originalusername",json.username)
+      localStorage.setItem("originalname",json.body.name)
+      localStorage.setItem("originalinstitude",json.body.institude)
+      localStorage.setItem("originalemail",json.body.email)
+      localStorage.setItem("originalmobile",json.body.mobile)
+      localStorage.setItem("originaladdress",json.body.address)
+      localStorage.setItem("originalinstitude",json.body.institude)
 
       navigate("/")
       toast.success("Register Successfully")

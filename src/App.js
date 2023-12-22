@@ -53,11 +53,25 @@ function App() {
  }
  const [questionItemNo, setQuestionItemNo] = useState(1)
  
-  const [goToCurrent,setGoToCurrent] = useState("")
-
+  const [goToCurrent,setGoToCurrent] = useState("d-none")
+  const [original,setOriginal] = useState("")
+  const [searchItem,setSearchItem] = useState("")
+  const searchChangeProfile = async(name)=>{
+    const response = await fetch(`http://localhost:5000/api/auth/getdetails/${name}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "auth-header": localStorage.getItem("token")
+      }
+    });
+    const json = await response.json();
+       
+   
+    return json
+  }
   return (
     <>
-      <NoteContext.Provider value={{goToCurrent,itemPageSize,setItemPageSize,questionItemNo,setQuestionItemNo,singleQuestionNo,setSingleQuestionNo,question,getQuestion,setDistributedQuestion,distributedQuestion}}>
+      <NoteContext.Provider value={{searchChangeProfile,searchItem,setSearchItem,original,setOriginal,goToCurrent,setGoToCurrent,itemPageSize,setItemPageSize,questionItemNo,setQuestionItemNo,singleQuestionNo,setSingleQuestionNo,question,getQuestion,setDistributedQuestion,distributedQuestion}}>
         <Router>
           <Progess/>
           <Navbar />

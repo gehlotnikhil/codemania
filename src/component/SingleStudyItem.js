@@ -102,7 +102,7 @@ function SingleStudyItem() {
       })
         setHeading("Google Spring 23 High Frequency");
       setDiffQuestionNo(25)
-        setImgS("images/google2.png");
+        setImgS("images/google3.png");
         break;
     }
   }

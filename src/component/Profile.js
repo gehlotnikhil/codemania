@@ -7,7 +7,8 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 function Profile() {
-
+  const context = useContext(NoteContext)
+  let {original,setOriginal} = useContext
   // Editing Note
   const editNote = async () => {
     //API CALL
@@ -29,6 +30,15 @@ function Profile() {
     localStorage.setItem("email",update.email)
     localStorage.setItem("mobile",update.mobile)
     localStorage.setItem("address",update.address)
+    localStorage.setItem("institude",update.institude)
+
+    localStorage.setItem("originalname",update.name)
+     localStorage.setItem("originalusername",update.username)
+      localStorage.setItem("originalemail",update.email)
+      localStorage.setItem("originalmobile",update.mobile)
+      localStorage.setItem("originaladdress",update.address)
+      localStorage.setItem("originalinstitude",update.institude)
+
 
   }
   const [show, setShow] = useState(false);
@@ -43,6 +53,7 @@ function Profile() {
     localStorage.setItem("email",update.email)
     localStorage.setItem("mobile",update.mobile)
     localStorage.setItem("address",update.address)
+    localStorage.setItem("institude",update.institude)
     setShow(false)
   };
   const handleShow = () => {
@@ -92,6 +103,10 @@ function Profile() {
             <label htmlFor="exampleFormControlInput5" className="form-label">Address: </label>
             <input name="address" onChange={onChanges} value={update.address} type="text" className="form-control" id="exampleFormControlInput5" />
           </div>
+          <div className="mb-3">
+            <label htmlFor="exampleFormControlInput5" className="form-label">Institude: </label>
+            <input name="institude" onChange={onChanges} value={update.institude} type="text" className="form-control" id="exampleFormControlInput5" />
+          </div>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
@@ -112,7 +127,7 @@ function Profile() {
                     className=" img-fluid" style={{ borderRadius: "1rem", width: "150px" }} />
                   <h5 className="my-3">{localStorage.getItem("name")}</h5>
                   <p className="text-muted mb-1">{localStorage.getItem("username")}</p>
-                  <Button variant="primary" onClick={handleShow}>
+                  <Button style={{marginTop:"19px"}} variant="primary" className={`${localStorage.getItem("originalemail")===localStorage.getItem("email")?"":"d-none"}`} onClick={handleShow}>
                     Edit Profile
                   </Button>
                 </div>
@@ -155,7 +170,7 @@ function Profile() {
                       <p className="mb-0">Mobile</p>
                     </div>
                     <div className="col-sm-9">
-                      <p className="text-muted mb-0">{localStorage.getItem("mobile") === "Unknown" ? "Unknown" : localStorage.getItem("mobile")}</p>
+                      <p className="text-muted mb-0">{localStorage.getItem("mobile") === "Unknown" ? "Unknown" : localStorage.getItem("mobile")==="undefined"?"":localStorage.getItem("mobile")}</p>
                     </div>
                   </div>
                   <hr />
@@ -164,7 +179,17 @@ function Profile() {
                       <p className="mb-0">Address</p>
                     </div>
                     <div className="col-sm-9">
-                      <p className="text-muted mb-0">{localStorage.getItem("address") === "Unknown" ? "Unknown" : localStorage.getItem("address")}</p>
+                      <p className="text-muted mb-0">{localStorage.getItem("address") === "Unknown" ? "Unknown" :localStorage.getItem("address")==="undefined"?"":localStorage.getItem("address")}</p>
+                    </div>
+                  </div>
+                  <hr />
+
+                  <div className="row">
+                    <div className="col-sm-3">
+                      <p className="mb-0">Instituation</p>
+                    </div>
+                    <div className="col-sm-9">
+                      <p className="text-muted mb-0">{localStorage.getItem("institude")==="undefined"?"":localStorage.getItem("institude")}</p>
                     </div>
                   </div>
                 </div>

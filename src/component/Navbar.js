@@ -1,9 +1,10 @@
-import React, { useEffect, useState,useContext } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { Link, useLocation } from "react-router-dom";
 // import icon from '../images/codemania_icon.png'
 // import profilePicture from '../images/profilePicture.png'
 import { useNavigate } from 'react-router-dom'
 import NoteContext from '../context/notes/NoteContext';
+import { toast } from 'react-toastify';
 
 function Navbar() {
   const navigate = useNavigate()
@@ -12,8 +13,9 @@ function Navbar() {
   const [profileDisplay, setProfileDisplay] = useState("")
   const [navItemsDisplay, setNavItemsDisplay] = useState("")
   const [searchDisplay, setSearchDisplay] = useState("")
- const context = useContext(NoteContext)
- let {goToCurrent} = context;
+  const context = useContext(NoteContext)
+  let { original, setOriginal ,searchItem,setSearchItem, searchChangeProfile} = context
+  let { goToCurrent ,setGoToCurrent} = context;
   let location = useLocation()
 
   const handleClickSignOut = () => {
@@ -43,10 +45,10 @@ function Navbar() {
       setNavItemsDisplay("")
     }
 
-    if(location.pathname === '/profile'){
+    if (location.pathname === '/profile') {
       setSearchDisplay("")
     }
-    else{
+    else {
       setSearchDisplay("d-none")
     }
     //setting title
@@ -56,6 +58,17 @@ function Navbar() {
     else {
       document.title = `Codemania | ${location.pathname.charAt(1).toUpperCase()}${location.pathname.substring(2)}`
     }
+    if(!(location.pathname === "/profile"))
+    {
+      localStorage.setItem("name",localStorage.getItem("originalname"))
+      localStorage.setItem("username",localStorage.getItem("originalusername"))
+      localStorage.setItem("email",localStorage.getItem("originalemail"))
+      localStorage.setItem("mobile",localStorage.getItem("originalmobile"))
+      localStorage.setItem("address",localStorage.getItem("originaladdress"))
+      localStorage.setItem("institude",localStorage.getItem("originalinstitude"))
+      setGoToCurrent("d-none")
+    }
+    console.log(original)
   }, [location])
   const [uname, setUname] = useState("")
   useEffect(() => {
@@ -68,10 +81,42 @@ function Navbar() {
       setUname("")
     }
   }, [location])
+  const ChangeMade = (e)=>{
+    setSearchItem(e.target.value)
+    console.log(searchItem)
+  }
+  const searchProfile = async(e)=>{
+    let json =  await searchChangeProfile(searchItem)
+    console.log("searchChangeProfile---",json)
+    if(json.success === false){
+      e.preventDefault()
+      alert("Username not Found")
+    }
+    else{
+      setGoToCurrent("")
+    localStorage.setItem("name",json.result.name)
+    localStorage.setItem("username",json.result.username)
+    localStorage.setItem("email",json.result.email)
+    localStorage.setItem("mobile",json.result.mobile)
+    localStorage.setItem("address",json.result.address)
+    localStorage.setItem("institude",json.result.institude)
+    }
+  }
 
+  if(location.pathname==="/profile"){
+    localStorage.getItem("email")===localStorage.getItem("originalemail")?setGoToCurrent("d-none"):setGoToCurrent("");
+  }
 
-
-
+  const [fusername, setFuserName] = useState("")
+ const  handleGoClick=()=>{
+  localStorage.setItem("name",localStorage.getItem("originalname"))
+  localStorage.setItem("username",localStorage.getItem("originalusername"))
+  localStorage.setItem("email",localStorage.getItem("originalemail"))
+  localStorage.setItem("mobile",localStorage.getItem("originalmobile"))
+  localStorage.setItem("address",localStorage.getItem("originaladdress"))
+  localStorage.setItem("institude",localStorage.getItem("originalinstitude"))
+  setGoToCurrent("d-none")
+  }
   return (
     <div className='main-nav'>
       <nav className="navbar navbar-expand-lg bg-nav ">
@@ -90,20 +135,20 @@ function Navbar() {
                 <Link className={`nav-link text-dark ${navItemsDisplay}`} to="/about">About </Link>
               </li>
               <li className="nav-item">
-                <Link style={{marginRight:"0"}}  className={`nav-link text-dark ${navItemsDisplay}`} to="/playground">Playground</Link>
+                <Link style={{ marginRight: "0" }} className={`nav-link text-dark ${navItemsDisplay}`} to="/playground">Playground</Link>
               </li>
 
             </ul>
           </div>
           <div>
-            <a className={`${goToCurrent}`} style={{margin:"0",}}>Go to Current Profile{"->"}</a>
+            <a onClick={handleGoClick} className={`${goToCurrent}`} style={{cursor:"pointer", margin: "0",marginRight:"10px" }}>{"<-"}Go to Your Profile</a>
           </div>
-          <div className={`d-flex ${searchDisplay}`}style={{ flexDirection: "row", marginRight: "20px" }}>
+          <div className={`d-flex ${searchDisplay}`} style={{ flexDirection: "row", marginRight: "20px" }}>
             <div class="topnav">
               <div class="search-container">
                 <form >
-                  <input type="text" placeholder="Search Profile" name="search" />
-                  <button type="submit"><i class="fa fa-search"></i></button>
+                  <input onChange={ChangeMade} value ={searchItem} type="text" placeholder="Search Profile" name="search" />
+                  <button onClick={searchProfile} type="submit"><i class="fa fa-search"></i></button>
                 </form>
               </div>
             </div>
