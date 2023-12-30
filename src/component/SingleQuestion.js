@@ -1,3 +1,4 @@
+import { click } from '@testing-library/user-event/dist/click';
 import NoteContext from '../context/notes/NoteContext'
 import React, { useEffect, useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -21,10 +22,15 @@ function SingleQuestion() {
     testcase3: "",
     outputOfTestcase1: "",
     outputOfTestcase2: "",
-    outputOfTestcase3: ""
+    outputOfTestcase3: "",
+  
   })
 
-  var { singleQuestionNo } = context;
+  var { singleQuestionNo ,madeChangesonClick} = context;
+  const [clickButton, setClickButton] = useState({
+    like:null,
+    dislike:null
+  })
   useEffect(() => {
     const m = context.singleQuestionNo
     //if m is not found then it will go back to Home Page
@@ -33,8 +39,13 @@ function SingleQuestion() {
     }
     console.log("ak----"+ m)
     getSingleQuestion(m)
+    console.log("like",objQuestion.like)
+ 
 
   }, [])
+  
+  
+
   const getSingleQuestion = async (no) => {
     console.log("get---", no)
     const response = await fetch(`${host}/api/question/getspecificquestion/${no}`, {
@@ -137,6 +148,48 @@ function SingleQuestion() {
 
   const [loading, setLoading] = useState("d-none")
 
+  // Like and Dislike Button Logic
+  const handleLikeClick = ()=>{
+    console.log(clickButton,"Like")
+    if(clickButton.like === null && clickButton.dislike === null){
+      madeChangesonClick(objQuestion._id,{like: objQuestion.like+1,dislike: objQuestion.dislike});
+      console.log({id:objQuestion._id,like: objQuestion.like+1,dislike: objQuestion.dislike})
+      setObjQuestion({...objQuestion, like:objQuestion.like+1})
+
+      setClickButton({like:true,dislike:false})
+
+    }
+    else if(clickButton.like === true ){
+      console.log("nothing")
+    }
+    else if(clickButton.like === false && clickButton.dislike === true){
+      madeChangesonClick(objQuestion._id,{like: objQuestion.like+1,dislike: objQuestion.dislike-1});
+      console.log({id:objQuestion._id,like: objQuestion.like+1,dislike: objQuestion.dislike-1})
+      setObjQuestion({...objQuestion, like:objQuestion.like+1,dislike:objQuestion.dislike-1 })
+      setClickButton({like:true,dislike:false})
+
+    }
+  }
+  const handleDislikeClick = ()=>{
+    console.log(clickButton,"Dislike")
+    if(clickButton.like === null && clickButton.dislike === null){
+      madeChangesonClick({id:objQuestion._id,like: objQuestion.like,dislike: objQuestion.dislike+1});
+      console.log({id:objQuestion._id,like: objQuestion.like,dislike: objQuestion.dislike+1})
+      setObjQuestion({...objQuestion, dislike:objQuestion.dislike+1})
+    }
+    else if(clickButton.dislike === true ){
+      console.log("nothing")
+    }
+    else if(clickButton.like === true && clickButton.dislike === false){
+      madeChangesonClick(objQuestion._id,{like: objQuestion.like-1,dislike: objQuestion.dislike+1});
+      console.log(objQuestion._id,{like: objQuestion.like-1,dislike: objQuestion.dislike+1})
+      setObjQuestion({...objQuestion, dislike:objQuestion.dislike+1,like:objQuestion.like-1})
+      setClickButton({like:false,dislike:true})
+
+    }
+  }
+
+
 
   return (
     <>
@@ -148,7 +201,7 @@ function SingleQuestion() {
               <h5>{objQuestion.no}. {objQuestion.name}</h5>
             </div>
             <div style={{}} className=' my-3'>
-              <pre><span className={`${objQuestion.difficulty === "Easy" ? "text-success" : (objQuestion.difficulty === "Medium" ? "text-warning" : "text-danger")}`}>{objQuestion.difficulty}</span>   &#128077; {objQuestion.like}  &#128078; {objQuestion.dislike} </pre>
+              <pre><span className={`${objQuestion.difficulty === "Easy" ? "text-success" : (objQuestion.difficulty === "Medium" ? "text-warning" : "text-danger")}`}>{objQuestion.difficulty}</span> <span onClick={handleLikeClick}>  &#128077; {objQuestion.like} </span><span onClick={handleDislikeClick}> &#128078; {objQuestion.dislike}</span> </pre>
             </div>
             <div className="">
               <pre onClick={handleTagClick}>&#10148; Company Tags: {tagClick === true ? objQuestion.companies : ""}</pre>

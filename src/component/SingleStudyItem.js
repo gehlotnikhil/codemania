@@ -114,7 +114,7 @@ function SingleStudyItem() {
   return (
     <div >
       {/* <h1>Study Item</h1> */}
-      <img src={imgS} alt="" style={{ width: "19vw", height: " 26%", position: " absolute", top: "110px", left: " 12pc" }} srcset="" />
+      <img src={imgS} alt="" style={{ width: "19vw", height: " 26%", position: " absolute", top: "110px", left: " 12pc" }} srcSet="" />
       <h1 style={{ position: "absolute", left: "28pc", top: "10pc", color: "white" }}>{heading}</h1>
       <img src="images/ai-2.jpg" alt="" srcSet="" height="260px" width="100%" />
       <div className='d-flex container' style={{ flexDirection: "row" }}>

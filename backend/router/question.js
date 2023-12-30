@@ -167,10 +167,19 @@ router.put("/update/:id",async (req,res)=>{
     if(req.body.submission){
         question.submission = req.body.submission
     }
+    if(req.body.like){
+        question.like = req.body.like
+    }
+    if(req.body.dislike){
+        question.dislike = req.body.dislike
+    }
+    if(question == {}){
+        return res.status(407).send("Empty Content")
+    }
 
     try {
-        const result = await Question.findOneAndUpdate({_id:req.params.id},{$set : question},{$new: true})
-        console.log(result)
+        const result = await Question.findByIdAndUpdate(req.params.id,{$set : question},{$new: true})
+        console.log({req:req.body,result:result})
         res.send(result)
     }
     catch (err) {

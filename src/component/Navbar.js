@@ -144,11 +144,11 @@ function Navbar() {
             <a onClick={handleGoClick} className={`${goToCurrent}`} style={{cursor:"pointer", margin: "0",marginRight:"10px" }}>{"<-"}Go to Your Profile</a>
           </div>
           <div className={`d-flex ${searchDisplay}`} style={{ flexDirection: "row", marginRight: "20px" }}>
-            <div class="topnav">
-              <div class="search-container">
+            <div className="topnav">
+              <div className="search-container">
                 <form >
                   <input onChange={ChangeMade} value ={searchItem} type="text" placeholder="Search Profile" name="search" />
-                  <button onClick={searchProfile} type="submit"><i class="fa fa-search"></i></button>
+                  <button onClick={searchProfile} type="submit"><i className="fa fa-search"></i></button>
                 </form>
               </div>
             </div>

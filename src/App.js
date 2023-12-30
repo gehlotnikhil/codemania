@@ -9,6 +9,7 @@ import Login from './component/Login';
 import Register from "./component/Register"
 import Profile from "./component/Profile"
 import Footer from "./component/Footer"
+import Error from "./component/Error"
 import NoteContext from "./context/notes/NoteContext"
 import SingleQuestion from './component/SingleQuestion';
 import SingleStudyItem from "./component/SingleStudyItem"
@@ -16,7 +17,6 @@ import {useDispatch} from "react-redux"
 import { bindActionCreators} from "redux"
 import {actionCreator} from './state/index'
 import {useSelector} from "react-redux"
-import Progess from './component/Progess';
 function App() {
   const host = "http://localhost:5000"
   const dispatch = useDispatch()
@@ -69,11 +69,23 @@ function App() {
    
     return json
   }
+  const madeChangesonClick = async(id,ob)=>{
+    console.log("enterered")
+    const response = await fetch(`http://localhost:5000/api/question/update/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "auth-header": localStorage.getItem("token")
+      },
+      body: JSON.stringify({like:ob.like,dislike:ob.dislike})
+    });
+    const json = await response.json();
+    console.log("new------",json)
+  }
   return (
     <>
-      <NoteContext.Provider value={{searchChangeProfile,searchItem,setSearchItem,original,setOriginal,goToCurrent,setGoToCurrent,itemPageSize,setItemPageSize,questionItemNo,setQuestionItemNo,singleQuestionNo,setSingleQuestionNo,question,getQuestion,setDistributedQuestion,distributedQuestion}}>
+      <NoteContext.Provider value={{madeChangesonClick,searchChangeProfile,searchItem,setSearchItem,original,setOriginal,goToCurrent,setGoToCurrent,itemPageSize,setItemPageSize,questionItemNo,setQuestionItemNo,singleQuestionNo,setSingleQuestionNo,question,getQuestion,setDistributedQuestion,distributedQuestion}}>
         <Router>
-          <Progess/>
           <Navbar />
           <Routes>
             <Route exact path="/" element={<Home />} />
@@ -84,6 +96,7 @@ function App() {
             <Route exact path="/profile" element={<Profile />} />
             <Route exact path="/singlequestion" element={<SingleQuestion />} />
             <Route exact path="/singlestudyitem" element={<SingleStudyItem />} />
+            <Route path ="*" element={<Error/>}/>
           </Routes>
           <Footer />
         </Router>
