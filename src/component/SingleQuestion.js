@@ -94,9 +94,11 @@ function SingleQuestion() {
       setCode({ ...code, isPassed: true })
 
       setIsError(false)
+      toast.success("Submission Passed")
       setResult({ ...result, json: json, mark: "correct", test1: json.test1, test2: json.test2, test3: json.test3 })
     }
     else {
+      toast.error("Submission Failed")
       setCode({ ...code, isPassed: false })
       if (json.outputOfTest1.result === "Compile Error...")
         setIsError(true)

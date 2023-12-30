@@ -23,7 +23,7 @@ router.post("/login", [
         const user = await User.findOne({ email: req.body.email })
         // if email is unable to find
         if (!user) {
-            return res.status(401).send("E-Please provide correct Credential")
+            return res.status(401).send({success,error:"E-Please provide correct Credential"})
         }
         console.log("details: "+user)
 
@@ -54,7 +54,7 @@ router.post("/login", [
         for (field in err.errors) {
             console.log(err.errors[field])
         }
-        return res.status(407).send(err)
+        return res.status(407).send(success,err)
     }
 })
 
