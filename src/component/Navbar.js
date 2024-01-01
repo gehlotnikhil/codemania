@@ -14,8 +14,8 @@ function Navbar() {
   const [navItemsDisplay, setNavItemsDisplay] = useState("")
   const [searchDisplay, setSearchDisplay] = useState("")
   const context = useContext(NoteContext)
-  let { original, setOriginal ,searchItem,setSearchItem, searchChangeProfile} = context
-  let { goToCurrent ,setGoToCurrent} = context;
+  let { original, setOriginal, searchItem, setSearchItem, searchChangeProfile } = context
+  let { goToCurrent, setGoToCurrent } = context;
   let location = useLocation()
 
   const handleClickSignOut = () => {
@@ -58,14 +58,13 @@ function Navbar() {
     else {
       document.title = `Codemania | ${location.pathname.charAt(1).toUpperCase()}${location.pathname.substring(2)}`
     }
-    if(!(location.pathname === "/profile"))
-    {
-      localStorage.setItem("name",localStorage.getItem("originalname"))
-      localStorage.setItem("username",localStorage.getItem("originalusername"))
-      localStorage.setItem("email",localStorage.getItem("originalemail"))
-      localStorage.setItem("mobile",localStorage.getItem("originalmobile"))
-      localStorage.setItem("address",localStorage.getItem("originaladdress"))
-      localStorage.setItem("institude",localStorage.getItem("originalinstitude"))
+    if (!(location.pathname === "/profile")) {
+      localStorage.setItem("name", localStorage.getItem("originalname"))
+      localStorage.setItem("username", localStorage.getItem("originalusername"))
+      localStorage.setItem("email", localStorage.getItem("originalemail"))
+      localStorage.setItem("mobile", localStorage.getItem("originalmobile"))
+      localStorage.setItem("address", localStorage.getItem("originaladdress"))
+      localStorage.setItem("institude", localStorage.getItem("originalinstitude"))
       setGoToCurrent("d-none")
     }
     console.log(original)
@@ -81,41 +80,41 @@ function Navbar() {
       setUname("")
     }
   }, [location])
-  const ChangeMade = (e)=>{
+  const ChangeMade = (e) => {
     setSearchItem(e.target.value)
     console.log(searchItem)
   }
-  const searchProfile = async(e)=>{
-    let json =  await searchChangeProfile(searchItem)
-    console.log("searchChangeProfile---",json)
-    if(json.success === false){
-      e.preventDefault()
+  const searchProfile = async (e) => {
+    let json = await searchChangeProfile(searchItem)
+    console.log("searchChangeProfile---", json)
+    if (json.success === false) {
       alert("Username not Found")
     }
-    else{
+    else {
       setGoToCurrent("")
-    localStorage.setItem("name",json.result.name)
-    localStorage.setItem("username",json.result.username)
-    localStorage.setItem("email",json.result.email)
-    localStorage.setItem("mobile",json.result.mobile)
-    localStorage.setItem("address",json.result.address)
-    localStorage.setItem("institude",json.result.institude)
+      // localStorage["name"] = json.result.name
+         localStorage.setItem("name", json.result.name)
+      localStorage.setItem("username", json.result.username)
+      localStorage.setItem("email", json.result.email)
+      localStorage.setItem("mobile", json.result.mobile)
+      localStorage.setItem("address", json.result.address)
+      localStorage.setItem("institude", json.result.institude)
     }
   }
 
-  if(location.pathname==="/profile"){
-    localStorage.getItem("email")===localStorage.getItem("originalemail")?setGoToCurrent("d-none"):setGoToCurrent("");
+  if (location.pathname === "/profile") {
+    localStorage.getItem("email") === localStorage.getItem("originalemail") ? setGoToCurrent("d-none") : setGoToCurrent("");
   }
 
   const [fusername, setFuserName] = useState("")
- const  handleGoClick=()=>{
-  localStorage.setItem("name",localStorage.getItem("originalname"))
-  localStorage.setItem("username",localStorage.getItem("originalusername"))
-  localStorage.setItem("email",localStorage.getItem("originalemail"))
-  localStorage.setItem("mobile",localStorage.getItem("originalmobile"))
-  localStorage.setItem("address",localStorage.getItem("originaladdress"))
-  localStorage.setItem("institude",localStorage.getItem("originalinstitude"))
-  setGoToCurrent("d-none")
+  const handleGoClick = () => {
+    localStorage.setItem("name", localStorage.getItem("originalname"))
+    localStorage.setItem("username", localStorage.getItem("originalusername"))
+    localStorage.setItem("email", localStorage.getItem("originalemail"))
+    localStorage.setItem("mobile", localStorage.getItem("originalmobile"))
+    localStorage.setItem("address", localStorage.getItem("originaladdress"))
+    localStorage.setItem("institude", localStorage.getItem("originalinstitude"))
+    setGoToCurrent("d-none")
   }
   return (
     <div className='main-nav'>
@@ -141,14 +140,14 @@ function Navbar() {
             </ul>
           </div>
           <div>
-            <a onClick={handleGoClick} className={`${goToCurrent}`} style={{cursor:"pointer", margin: "0",marginRight:"10px" }}>{"<-"}Go to Your Profile</a>
+            <a onClick={handleGoClick} className={`${goToCurrent}`} style={{ cursor: "pointer", margin: "0", marginRight: "10px" }}>{"<-"}Go to Your Profile</a>
           </div>
           <div className={`d-flex ${searchDisplay}`} style={{ flexDirection: "row", marginRight: "20px" }}>
             <div className="topnav">
               <div className="search-container">
                 <form >
-                  <input onChange={ChangeMade} value ={searchItem} type="text" placeholder="Search Profile" name="search" />
-                  <button onClick={searchProfile} type="submit"><i className="fa fa-search"></i></button>
+                  <input onChange={ChangeMade} value={searchItem} type="text" placeholder="Search Profile" name="search" />
+                  <button onClick={searchProfile} ><i className="fa fa-search"></i></button>
                 </form>
               </div>
             </div>

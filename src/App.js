@@ -14,15 +14,12 @@ import NoteContext from "./context/notes/NoteContext"
 import SingleQuestion from './component/SingleQuestion';
 import SingleStudyItem from "./component/SingleStudyItem"
 import {useDispatch} from "react-redux"
-import { bindActionCreators} from "redux"
-import {actionCreator} from './state/index'
 import {useSelector} from "react-redux"
 function App() {
   const host = "http://localhost:5000"
   const dispatch = useDispatch()
   const balance = useSelector(state=>state.amount)
   const isPositive = useSelector(state=>state.check)
-  const {depositMoney,withdrawMoney,checkResult} = bindActionCreators(actionCreator,dispatch)
   const [singleQuestionNo,setSingleQuestionNo] = useState("")
 
   const initialQuestion = []
