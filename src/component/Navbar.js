@@ -5,8 +5,31 @@ import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from 'react-router-dom'
 import NoteContext from '../context/notes/NoteContext';
 import { toast } from 'react-toastify';
+import { useSelector,useDispatch } from 'react-redux';
+import {Sid,Stoken,Sname,Susername,Sinstitude,Semail,Smobile,Saddress,SoriginalName,Soriginalusername,Soriginalinstitude,Soriginalemail,Soriginalmobile,Soriginaladdress} from "../actions/index"
 
 function Navbar() {
+  const dispatch = useDispatch()
+  const name = useSelector((state)=> state.name.name)
+  const id= useSelector((state)=> state.name.id)
+  const token= useSelector((state)=> state.name.token)
+  const username= useSelector((state)=> state.name.username)
+  const institude=useSelector((state)=> state.name.institude)
+  const email=  useSelector((state)=> state.name.email)
+  const mobile= useSelector((state)=> state.name.mobile)
+  const address=useSelector((state)=> state.name.address)
+ 
+  const originalname= useSelector((state)=> state.name.originalName)
+  const originalusername= useSelector((state)=> state.name.originalusername)
+  const originalinstitude= useSelector((state)=> state.name.originalinstitude)
+  const originalemail= useSelector((state)=> state.name.originalemail)
+  const originalmobile= useSelector((state)=> state.name.originalmobile)
+  const originaladdress= useSelector((state)=> state.name.originaladdress)
+
+
+
+
+
   const navigate = useNavigate()
   const [loginDisplay, setLoginDisplay] = useState("")
   const [registerDisplay, setRegisterDisplay] = useState("")
@@ -61,10 +84,16 @@ function Navbar() {
     if (!(location.pathname === "/profile")) {
       localStorage.setItem("name", localStorage.getItem("originalname"))
       localStorage.setItem("username", localStorage.getItem("originalusername"))
+      localStorage.setItem("institude", localStorage.getItem("originalinstitude"))
       localStorage.setItem("email", localStorage.getItem("originalemail"))
       localStorage.setItem("mobile", localStorage.getItem("originalmobile"))
       localStorage.setItem("address", localStorage.getItem("originaladdress"))
-      localStorage.setItem("institude", localStorage.getItem("originalinstitude"))
+      dispatch(Sname(originalname))
+      dispatch(Susername(originalusername))
+      dispatch(Sinstitude(originalinstitude))
+      dispatch(Semail(originalemail))
+      dispatch(Smobile(originalmobile))
+      dispatch(Saddress(originaladdress))
       setGoToCurrent("d-none")
     }
     console.log(original)
@@ -85,6 +114,7 @@ function Navbar() {
     console.log(searchItem)
   }
   const searchProfile = async (e) => {
+    e.preventDefault();
     let json = await searchChangeProfile(searchItem)
     console.log("searchChangeProfile---", json)
     if (json.success === false) {
@@ -95,10 +125,17 @@ function Navbar() {
       // localStorage["name"] = json.result.name
          localStorage.setItem("name", json.result.name)
       localStorage.setItem("username", json.result.username)
+      localStorage.setItem("institude", json.result.institude)
       localStorage.setItem("email", json.result.email)
       localStorage.setItem("mobile", json.result.mobile)
       localStorage.setItem("address", json.result.address)
-      localStorage.setItem("institude", json.result.institude)
+
+      dispatch(Sname(json.result.name))
+      dispatch(Susername(json.result.username))
+      dispatch(Sinstitude(json.result.institude))
+      dispatch(Semail(json.result.email))
+      dispatch(Smobile(json.result.mobile))
+      dispatch(Saddress(json.result.address))
     }
   }
 
@@ -110,10 +147,18 @@ function Navbar() {
   const handleGoClick = () => {
     localStorage.setItem("name", localStorage.getItem("originalname"))
     localStorage.setItem("username", localStorage.getItem("originalusername"))
+    localStorage.setItem("institude", localStorage.getItem("originalinstitude"))
     localStorage.setItem("email", localStorage.getItem("originalemail"))
     localStorage.setItem("mobile", localStorage.getItem("originalmobile"))
     localStorage.setItem("address", localStorage.getItem("originaladdress"))
-    localStorage.setItem("institude", localStorage.getItem("originalinstitude"))
+
+    dispatch(Sname(originalname))
+    dispatch(Susername(originalusername))
+    dispatch(Sinstitude(originalinstitude))
+    dispatch(Semail(originalemail))
+    dispatch(Smobile(originalmobile))
+    dispatch(Saddress(originaladdress))
+
     setGoToCurrent("d-none")
   }
   return (

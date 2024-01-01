@@ -1,19 +1,24 @@
-import React,{useContext, useState} from 'react'
+import React, { useContext, useState } from 'react'
 // import image from "../images/coding.png";
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify';
 import NoteContext from '../context/notes/NoteContext';
+import { useSelector, useDispatch } from 'react-redux';
+import {Sid,Stoken,Sname,Susername,Sinstitude,Semail,Smobile,Saddress,SoriginalName,Soriginalusername,Soriginalinstitude,Soriginalemail,Soriginalmobile,Soriginaladdress} from "../actions/index"
+
 function Login() {
+  const dispatch = useDispatch()
+
   const context = useContext(NoteContext)
-  let {original,setOriginal} = context
+  let { original, setOriginal } = context
   const navigate = useNavigate()
   const host = "http://localhost:5000"
   const [credential, setCredential] = useState({ email: "", password: "" })
   const onChanges = (e) => {
     setCredential({ ...credential, [e.target.name]: e.target.value })
     console.log(credential)
-}
-  
+  }
+
 
   const handleClick = async (element) => {
     element.preventDefault()
@@ -31,25 +36,38 @@ function Login() {
     console.log("json--", json, "---")
     if (json.success) {
       //save the token and redirect
+      localStorage.setItem("id", json.body.id)
       localStorage.setItem("token", json.authToken)
-      localStorage.setItem("username",json.username)
-      localStorage.setItem("name",json.body.name)
-      localStorage.setItem("institude",json.body.institude)
-      localStorage.setItem("email",json.body.email)
-      localStorage.setItem("mobile",json.body.mobile)
-      localStorage.setItem("address",json.body.address)
-      localStorage.setItem("id",json.body.id)
+      localStorage.setItem("name", json.body.name)
+      localStorage.setItem("username", json.username)
+      localStorage.setItem("institude", json.body.institude)
+      localStorage.setItem("email", json.body.email)
+      localStorage.setItem("mobile", json.body.mobile)
+      localStorage.setItem("address", json.body.address)
+      dispatch(Sid(json.body.id))
+      dispatch(Stoken(json.authToken))
+      dispatch(Sname(json.body.name))
+      dispatch(Susername(json.username))
+      dispatch(Sinstitude(json.body.institude))
+      dispatch(Semail(json.body.email))
+      dispatch(Smobile(json.body.mobile))
+      dispatch(Saddress(json.body.address))
 
-      localStorage.setItem("originalusername",json.username)
-      localStorage.setItem("originalname",json.body.name)
-      localStorage.setItem("originalinstitude",json.body.institude)
-      localStorage.setItem("originalemail",json.body.email)
-      localStorage.setItem("originalmobile",json.body.mobile)
-      localStorage.setItem("originaladdress",json.body.address)
-      localStorage.setItem("originalinstitude",json.body.institude)
+      localStorage.setItem("originalname", json.body.name)
+      localStorage.setItem("originalusername", json.username)
+      localStorage.setItem("originalinstitude", json.body.institude)
+      localStorage.setItem("originalemail", json.body.email)
+      localStorage.setItem("originalmobile", json.body.mobile)
+      localStorage.setItem("originaladdress", json.body.address)
+
+      dispatch(SoriginalName(json.body.name))
+      dispatch(Soriginalusername(json.username))
+      dispatch(Soriginalinstitude(json.body.institude))
+      dispatch(Soriginalemail(json.body.email))
+      dispatch(Soriginalmobile(json.body.mobile))
+      dispatch(Soriginaladdress(json.body.address))
 
 
-      
       navigate("/")
       toast.success("Login Successfully")
     }
@@ -72,7 +90,7 @@ function Login() {
           </div>
           <div className="mb-3 ">
             <label htmlFor="exampleInputPassword1" className="form-label">Password:</label>
-            <input type="password" name="password" onChange={onChanges}  className="form-control" id="exampleInputPassword1" required />
+            <input type="password" name="password" onChange={onChanges} className="form-control" id="exampleInputPassword1" required />
           </div>
 
           <button type="submit" onClick={handleClick} className="btn btn-primary my-3">Submit</button>

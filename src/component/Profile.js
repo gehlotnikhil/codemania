@@ -5,8 +5,28 @@ import NoteContext from '../context/notes/NoteContext'
 import { useContext, useRef, useState } from "react"
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import { useSelector,useDispatch } from 'react-redux';
+import {Sid,Stoken,Sname,Susername,Sinstitude,Semail,Smobile,Saddress,SoriginalName,Soriginalusername,Soriginalinstitude,Soriginalemail,Soriginalmobile,Soriginaladdress} from "../actions/index"
 
 function Profile() {
+  const dispatch = useDispatch()
+  const name = useSelector((state)=> state.name.name)
+  const id= useSelector((state)=> state.name.id)
+  const token= useSelector((state)=> state.name.token)
+  const username= useSelector((state)=> state.name.username)
+  const institude=useSelector((state)=> state.name.institude)
+  const email=  useSelector((state)=> state.name.email)
+  const mobile= useSelector((state)=> state.name.mobile)
+  const address=useSelector((state)=> state.name.address)
+ 
+  const originalname= useSelector((state)=> state.name.originalName)
+  const originalusername= useSelector((state)=> state.name.originalusername)
+  const originalinstitude= useSelector((state)=> state.name.originalinstitude)
+  const originalemail= useSelector((state)=> state.name.originalemail)
+  const originalmobile= useSelector((state)=> state.name.originalmobile)
+  const originaladdress= useSelector((state)=> state.name.originaladdress)
+
+
   const context = useContext(NoteContext)
   let {original,setOriginal} = useContext
   // Editing Note
@@ -27,10 +47,19 @@ function Profile() {
     console.log("Edited - ", localStorage.getItem("id"))
     localStorage.setItem("name",update.name)
     localStorage.setItem("username",update.username)
+    localStorage.setItem("institude",update.institude)
     localStorage.setItem("email",update.email)
     localStorage.setItem("mobile",update.mobile)
     localStorage.setItem("address",update.address)
-    localStorage.setItem("institude",update.institude)
+
+    dispatch(Sname(update.name))
+    dispatch(Susername(update.username))
+    dispatch(Sinstitude(update.institude))
+    dispatch(Semail(update.email))
+    dispatch(Smobile(update.mobile))
+    dispatch(Saddress(update.address))
+
+
 
     localStorage.setItem("originalname",update.name)
      localStorage.setItem("originalusername",update.username)
@@ -39,7 +68,12 @@ function Profile() {
       localStorage.setItem("originaladdress",update.address)
       localStorage.setItem("originalinstitude",update.institude)
 
-
+      dispatch(SoriginalName(update.name))
+      dispatch(Soriginalusername(update.username))
+      dispatch(Soriginalinstitude(update.institude))
+      dispatch(Soriginalemail(update.email))
+      dispatch(Soriginalmobile(update.mobile))
+      dispatch(Soriginaladdress(update.address))
   }
   const [show, setShow] = useState(false);
 
@@ -50,21 +84,28 @@ function Profile() {
     editNote(update)
     localStorage.setItem("name",update.name)
     localStorage.setItem("username",update.username)
+    localStorage.setItem("institude",update.institude)
     localStorage.setItem("email",update.email)
     localStorage.setItem("mobile",update.mobile)
     localStorage.setItem("address",update.address)
-    localStorage.setItem("institude",update.institude)
+
+    dispatch(Sname(update.name))
+    dispatch(Susername(update.username))
+    dispatch(Sinstitude(update.institude))
+    dispatch(Semail(update.email))
+    dispatch(Smobile(update.mobile))
+    dispatch(Saddress(update.address))
     setShow(false)
   };
   const handleShow = () => {
     setShow(true)
   };
   const [update, setUpdate] = useState({
-    name: localStorage.getItem("name"),
-    username: localStorage.getItem("username"),
-    email: localStorage.getItem("email"),
-    mobile: (localStorage.getItem("mobile") === "Unknown" ? "" : localStorage.getItem("mobile")),
-    address: (localStorage.getItem("address") === "Unknown" ? "" : localStorage.getItem("address")),
+    name: name,
+    username: username,
+    email: email,
+    mobile: (mobile),
+    address: (address),
   });
 
   const onChanges = (e) => {
@@ -125,9 +166,9 @@ function Profile() {
                 <div className="card-body text-center">
                   <img src="images/profile2.png" alt="avatar"
                     className=" img-fluid" style={{ borderRadius: "1rem", width: "150px" }} />
-                  <h5 className="my-3">{localStorage.getItem("name")}</h5>
-                  <p className="text-muted mb-1">{localStorage.getItem("username")}</p>
-                  <Button style={{marginTop:"19px"}} variant="primary" className={`${localStorage.getItem("originalemail")===localStorage.getItem("email")?"":"d-none"}`} onClick={handleShow}>
+                  <h5 className="my-3">{name}</h5>
+                  <p className="text-muted mb-1">{username}</p>
+                  <Button style={{marginTop:"19px"}} variant="primary" className={`${originalemail===email?"":"d-none"}`} onClick={handleShow}>
                     Edit Profile
                   </Button>
                 </div>
@@ -142,7 +183,7 @@ function Profile() {
                       <p className="mb-0">Full Name</p>
                     </div>
                     <div className="col-sm-9">
-                      <p className="text-muted mb-0">{localStorage.getItem("name")}</p>
+                      <p className="text-muted mb-0">{name}</p>
                     </div>
                   </div>
                   <hr />
@@ -151,7 +192,7 @@ function Profile() {
                       <p className="mb-0">Username: </p>
                     </div>
                     <div className="col-sm-9">
-                      <p className="text-muted mb-0">{localStorage.getItem("username")}</p>
+                      <p className="text-muted mb-0">{username}</p>
                     </div>
                   </div>
                   <hr />
@@ -160,7 +201,7 @@ function Profile() {
                       <p className="mb-0">Email</p>
                     </div>
                     <div className="col-sm-9">
-                      <p className="text-muted mb-0">{localStorage.getItem("email")}</p>
+                      <p className="text-muted mb-0">{email}</p>
                     </div>
                   </div>
                   <hr />
@@ -170,7 +211,7 @@ function Profile() {
                       <p className="mb-0">Mobile</p>
                     </div>
                     <div className="col-sm-9">
-                      <p className="text-muted mb-0">{localStorage.getItem("mobile") === "Unknown" ? "Unknown" : localStorage.getItem("mobile")==="undefined"?"":localStorage.getItem("mobile")}</p>
+                      <p className="text-muted mb-0">{mobile}</p>
                     </div>
                   </div>
                   <hr />
@@ -179,7 +220,7 @@ function Profile() {
                       <p className="mb-0">Address</p>
                     </div>
                     <div className="col-sm-9">
-                      <p className="text-muted mb-0">{localStorage.getItem("address") === "Unknown" ? "Unknown" :localStorage.getItem("address")==="undefined"?"":localStorage.getItem("address")}</p>
+                      <p className="text-muted mb-0">{address}</p>
                     </div>
                   </div>
                   <hr />
@@ -189,7 +230,7 @@ function Profile() {
                       <p className="mb-0">Instituation</p>
                     </div>
                     <div className="col-sm-9">
-                      <p className="text-muted mb-0">{localStorage.getItem("institude")==="undefined"?"":localStorage.getItem("institude")}</p>
+                      <p className="text-muted mb-0">{institude}</p>
                     </div>
                   </div>
                 </div>

@@ -3,7 +3,12 @@ import React, { useState,useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify';
 import NoteContext from '../context/notes/NoteContext';
+import { useSelector,useDispatch } from 'react-redux';
+import {Sid,Stoken,Sname,Susername,Sinstitude,Semail,Smobile,Saddress,SoriginalName,Soriginalusername,Soriginalinstitude,Soriginalemail,Soriginalmobile,Soriginaladdress} from "../actions/index"
+
 function Register() {
+  const dispatch = useDispatch()
+
   const context = useContext(NoteContext)
   let {original,setOriginal} = context
   const navigate = useNavigate();
@@ -44,23 +49,40 @@ function Register() {
     console.log("json--", json, "---")
     if (json.success) {
       //save the token and redirect
+      localStorage.setItem("id",json.body.id)
       localStorage.setItem("token", json.authToken)
-      localStorage.setItem("username",json.username)
       localStorage.setItem("name",json.body.name)
+      localStorage.setItem("username",json.username)
       localStorage.setItem("institude",json.body.institude)
       localStorage.setItem("email",json.body.email)
       localStorage.setItem("mobile",json.body.mobile)
       localStorage.setItem("address",json.body.address)
-      localStorage.setItem("id",json.body.id)
+      dispatch(Sid(json.body.id))
+      dispatch(Stoken(json.authToken))
+      dispatch(Sname(json.body.name))
+      dispatch(Susername(json.username))
+      dispatch(Sinstitude(json.body.institude))
+      dispatch(Semail(json.body.email))
+      dispatch(Smobile(json.body.mobile))
+      dispatch(Saddress(json.body.address))
 
+      
      
       localStorage.setItem("originalusername",json.username)
-      localStorage.setItem("originalname",json.body.name)
+       localStorage.setItem("originalname",json.body.name)
       localStorage.setItem("originalinstitude",json.body.institude)
       localStorage.setItem("originalemail",json.body.email)
       localStorage.setItem("originalmobile",json.body.mobile)
       localStorage.setItem("originaladdress",json.body.address)
-      localStorage.setItem("originalinstitude",json.body.institude)
+      
+      dispatch(SoriginalName(json.body.name))
+      dispatch(Soriginalusername(json.username))
+      dispatch(Soriginalinstitude(json.body.institude))
+      dispatch(Soriginalemail(json.body.email))
+      dispatch(Soriginalmobile(json.body.mobile))
+      dispatch(Soriginaladdress(json.body.address))
+
+
 
       navigate("/")
       toast.success("Register Successfully")
