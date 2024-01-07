@@ -106,6 +106,7 @@ function Profile() {
     email: email,
     mobile: (mobile),
     address: (address),
+    institude:institude
   });
 
   const onChanges = (e) => {
@@ -146,7 +147,7 @@ function Profile() {
           </div>
           <div className="mb-3">
             <label htmlFor="exampleFormControlInput5" className="form-label">Institude: </label>
-            <input name="institude" onChange={onChanges} value={update.institude} type="text" className="form-control" id="exampleFormControlInput5" />
+            <input type="text" name="institude" onChange={onChanges} value={update.institude}  className="form-control" id="exampleFormControlInput5" />
           </div>
         </Modal.Body>
         <Modal.Footer>

@@ -67,6 +67,8 @@ function App() {
     return json
   }
   const madeChangesonClick = async(id,ob)=>{
+    try{
+    console.log("m-",ob)
     console.log("enterered")
     const response = await fetch(`http://localhost:5000/api/question/update/${id}`, {
       method: "PUT",
@@ -78,6 +80,9 @@ function App() {
     });
     const json = await response.json();
     console.log("new------",json)
+  }catch(err){
+    console.log(err)
+  }
   }
   return (
     <>

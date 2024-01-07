@@ -23,28 +23,30 @@ function SingleQuestion() {
     outputOfTestcase1: "",
     outputOfTestcase2: "",
     outputOfTestcase3: "",
-  
+
   })
 
-  var { singleQuestionNo ,madeChangesonClick} = context;
+  var { singleQuestionNo, madeChangesonClick } = context;
   const [clickButton, setClickButton] = useState({
-    like:null,
-    dislike:null
+    like: null,
+    dislike: null
   })
   useEffect(() => {
     const m = context.singleQuestionNo
     //if m is not found then it will go back to Home Page
-    if(!m){
+    if (!m) {
       navigate("/")
     }
-    console.log("ak----"+ m)
+    console.log("ak----" + m)
     getSingleQuestion(m)
-    console.log("like",objQuestion.like)
- 
+    console.log("like", objQuestion.like)
+    console.log("test1--", objQuestion)
+
+
 
   }, [])
-  
-  
+
+
 
   const getSingleQuestion = async (no) => {
     console.log("get---", no)
@@ -151,43 +153,40 @@ function SingleQuestion() {
   const [loading, setLoading] = useState("d-none")
 
   // Like and Dislike Button Logic
-  const handleLikeClick = ()=>{
-    console.log(clickButton,"Like")
-    if(clickButton.like === null && clickButton.dislike === null){
-      madeChangesonClick(objQuestion._id,{like: objQuestion.like+1,dislike: objQuestion.dislike});
-      console.log({id:objQuestion._id,like: objQuestion.like+1,dislike: objQuestion.dislike})
-      setObjQuestion({...objQuestion, like:objQuestion.like+1})
-
-      setClickButton({like:true,dislike:false})
-
+  const handleLikeClick = () => {
+    console.log("test2--", objQuestion)
+    console.log(clickButton, "Like")
+    if (clickButton.like === null && clickButton.dislike === null) {
+      console.log({ id: objQuestion._id, like: objQuestion.like + 1, dislike: objQuestion.dislike })
+      madeChangesonClick(objQuestion._id, { like: objQuestion.like + 1, dislike: objQuestion.dislike });
+      setObjQuestion({ ...objQuestion, like: objQuestion.like + 1 })
+      setClickButton({ like: true, dislike: false })
     }
-    else if(clickButton.like === true ){
+    else if (clickButton.like === true) 
       console.log("nothing")
-    }
-    else if(clickButton.like === false && clickButton.dislike === true){
-      madeChangesonClick(objQuestion._id,{like: objQuestion.like+1,dislike: objQuestion.dislike-1});
-      console.log({id:objQuestion._id,like: objQuestion.like+1,dislike: objQuestion.dislike-1})
-      setObjQuestion({...objQuestion, like:objQuestion.like+1,dislike:objQuestion.dislike-1 })
-      setClickButton({like:true,dislike:false})
-
+    else if (clickButton.like === false && clickButton.dislike === true) {
+      madeChangesonClick(objQuestion._id, { like: objQuestion.like + 1, dislike: objQuestion.dislike - 1 });
+      console.log({ id: objQuestion._id, like: objQuestion.like + 1, dislike: objQuestion.dislike - 1 })
+      setObjQuestion({ ...objQuestion, like: objQuestion.like + 1, dislike: objQuestion.dislike - 1 })
+      setClickButton({ like: true, dislike: false })
     }
   }
-  const handleDislikeClick = ()=>{
-    console.log(clickButton,"Dislike")
-    if(clickButton.like === null && clickButton.dislike === null){
-      madeChangesonClick({id:objQuestion._id,like: objQuestion.like,dislike: objQuestion.dislike+1});
-      console.log({id:objQuestion._id,like: objQuestion.like,dislike: objQuestion.dislike+1})
-      setObjQuestion({...objQuestion, dislike:objQuestion.dislike+1})
+  const handleDislikeClick = () => {
+    console.log(clickButton, "Dislike")
+    console.log("test2--", objQuestion)
+    if (clickButton.like === null && clickButton.dislike === null) {
+      madeChangesonClick({ id: objQuestion._id, like: objQuestion.like, dislike: objQuestion.dislike + 1 });
+      console.log({ id: objQuestion._id, like: objQuestion.like, dislike: objQuestion.dislike + 1 })
+      setObjQuestion({ ...objQuestion, dislike: objQuestion.dislike + 1 })
+      setClickButton({ like: false, dislike: true })
     }
-    else if(clickButton.dislike === true ){
+    else if (clickButton.dislike === true) 
       console.log("nothing")
-    }
-    else if(clickButton.like === true && clickButton.dislike === false){
-      madeChangesonClick(objQuestion._id,{like: objQuestion.like-1,dislike: objQuestion.dislike+1});
-      console.log(objQuestion._id,{like: objQuestion.like-1,dislike: objQuestion.dislike+1})
-      setObjQuestion({...objQuestion, dislike:objQuestion.dislike+1,like:objQuestion.like-1})
-      setClickButton({like:false,dislike:true})
-
+    else if (clickButton.like === true && clickButton.dislike === false) {
+      madeChangesonClick(objQuestion._id, { like: objQuestion.like - 1, dislike: objQuestion.dislike + 1 });
+      console.log(objQuestion._id, { like: objQuestion.like - 1, dislike: objQuestion.dislike + 1 })
+      setObjQuestion({ ...objQuestion, dislike: objQuestion.dislike + 1, like: objQuestion.like - 1 })
+      setClickButton({ like: false, dislike: true })
     }
   }
 
