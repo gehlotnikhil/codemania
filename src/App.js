@@ -18,7 +18,7 @@ import { bindActionCreators} from "redux"
 import {actionCreator} from './state/index'
 import {useSelector} from "react-redux"
 function App() {
-  const host = "http://localhost:5000"
+  const host = "https://codemania-backend-production.up.railway.app"
   const dispatch = useDispatch()
   const balance = useSelector(state=>state.amount)
   const isPositive = useSelector(state=>state.check)
@@ -57,7 +57,7 @@ function App() {
   const [original,setOriginal] = useState("")
   const [searchItem,setSearchItem] = useState("")
   const searchChangeProfile = async(name)=>{
-    const response = await fetch(`http://localhost:5000/api/auth/getdetails/${name}`, {
+    const response = await fetch(`https://codemania-backend-production.up.railway.app//api/auth/getdetails/${name}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -71,7 +71,7 @@ function App() {
   }
   const madeChangesonClick = async(id,ob)=>{
     console.log("enterered")
-    const response = await fetch(`http://localhost:5000/api/question/update/${id}`, {
+    const response = await fetch(`https://codemania-backend-production.up.railway.app/api/question/update/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

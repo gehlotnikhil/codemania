@@ -12,7 +12,7 @@ function Profile() {
   // Editing Note
   const editNote = async () => {
     //API CALL
-    const response = await fetch(`http://localhost:5000/api/auth/update/${localStorage.getItem("id")}`, {
+    const response = await fetch(`https://codemania-backend-production.up.railway.app/api/auth/update/${localStorage.getItem("id")}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

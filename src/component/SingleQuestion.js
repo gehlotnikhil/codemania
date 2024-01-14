@@ -11,7 +11,7 @@ function SingleQuestion() {
   const context = useContext(NoteContext)
   const [tagClick, setTagClick] = useState(false)
   const questionNo = singleQuestionNo - 1
-  const host = "http://localhost:5000"
+  const host = "https://codemania-backend-production.up.railway.app"
   const [objQuestion, setObjQuestion] = useState([])
   const [code, setCode] = useState({
     code: "",

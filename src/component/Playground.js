@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 function Playground() {
   const [loading, setLoading] = useState("d-none")
   const [outputOfCode, setOutputOfCode] = useState("")
-  const host = "http://localhost:5000"
+  const host = "https://codemania-backend-production.up.railway.app"
 
   const [code, setCode] = useState({
     code: "",

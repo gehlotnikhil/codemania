@@ -7,7 +7,7 @@ function Login() {
   const context = useContext(NoteContext)
   let {original,setOriginal} = context
   const navigate = useNavigate()
-  const host = "http://localhost:5000"
+  const host = "https://codemania-backend-production.up.railway.app"
   const [credential, setCredential] = useState({ email: "", password: "" })
   const onChanges = (e) => {
     setCredential({ ...credential, [e.target.name]: e.target.value })
