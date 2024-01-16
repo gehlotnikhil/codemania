@@ -16,6 +16,7 @@ import SingleStudyItem from "./component/SingleStudyItem"
 import {useDispatch} from "react-redux"
 import {useSelector} from "react-redux"
 function App() {
+  // const host = "https://codemania-backend-production.up.railway.app"
   const host = "http://localhost:5000"
   const dispatch = useDispatch()
   const balance = useSelector(state=>state.amount)
@@ -54,7 +55,7 @@ function App() {
   const [original,setOriginal] = useState("")
   const [searchItem,setSearchItem] = useState("")
   const searchChangeProfile = async(name)=>{
-    const response = await fetch(`http://localhost:5000/api/auth/getdetails/${name}`, {
+    const response = await fetch(`${host}/api/auth/getdetails/${name}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -70,7 +71,7 @@ function App() {
     try{
     console.log("m-",ob)
     console.log("enterered")
-    const response = await fetch(`http://localhost:5000/api/question/update/${id}`, {
+    const response = await fetch(`${host}/api/question/update/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -86,7 +87,7 @@ function App() {
   }
   return (
     <>
-      <NoteContext.Provider value={{madeChangesonClick,searchChangeProfile,searchItem,setSearchItem,original,setOriginal,goToCurrent,setGoToCurrent,itemPageSize,setItemPageSize,questionItemNo,setQuestionItemNo,singleQuestionNo,setSingleQuestionNo,question,getQuestion,setDistributedQuestion,distributedQuestion}}>
+      <NoteContext.Provider value={{host,madeChangesonClick,searchChangeProfile,searchItem,setSearchItem,original,setOriginal,goToCurrent,setGoToCurrent,itemPageSize,setItemPageSize,questionItemNo,setQuestionItemNo,singleQuestionNo,setSingleQuestionNo,question,getQuestion,setDistributedQuestion,distributedQuestion}}>
         <Router>
           <Navbar />
           <Routes>

@@ -11,7 +11,7 @@ function SingleQuestion() {
   const context = useContext(NoteContext)
   const [tagClick, setTagClick] = useState(false)
   const questionNo = singleQuestionNo - 1
-  const host = "http://localhost:5000"
+  const host = context.host
   const [objQuestion, setObjQuestion] = useState([])
   const [code, setCode] = useState({
     code: "",
@@ -152,57 +152,57 @@ function SingleQuestion() {
 
   const [loading, setLoading] = useState("d-none")
 
-  // Like and Dislike Button Logic
-  const handleLikeClick = () => {
-    console.log("test2--", objQuestion)
-    console.log(clickButton, "Like")
-    if (clickButton.like === null && clickButton.dislike === null) {
-      console.log({ id: objQuestion._id, like: objQuestion.like + 1, dislike: objQuestion.dislike })
-      madeChangesonClick(objQuestion._id, { like: objQuestion.like + 1, dislike: objQuestion.dislike });
-      setObjQuestion({ ...objQuestion, like: objQuestion.like + 1 })
-      setClickButton({ like: true, dislike: false })
-    }
-    else if (clickButton.like === true) 
-      console.log("nothing")
-    else if (clickButton.like === false && clickButton.dislike === true) {
-      madeChangesonClick(objQuestion._id, { like: objQuestion.like + 1, dislike: objQuestion.dislike - 1 });
-      console.log({ id: objQuestion._id, like: objQuestion.like + 1, dislike: objQuestion.dislike - 1 })
-      setObjQuestion({ ...objQuestion, like: objQuestion.like + 1, dislike: objQuestion.dislike - 1 })
-      setClickButton({ like: true, dislike: false })
-    }
-  }
-  const handleDislikeClick = () => {
-    console.log(clickButton, "Dislike")
-    console.log("test2--", objQuestion)
-    if (clickButton.like === null && clickButton.dislike === null) {
-      madeChangesonClick({ id: objQuestion._id, like: objQuestion.like, dislike: objQuestion.dislike + 1 });
-      console.log({ id: objQuestion._id, like: objQuestion.like, dislike: objQuestion.dislike + 1 })
-      setObjQuestion({ ...objQuestion, dislike: objQuestion.dislike + 1 })
-      setClickButton({ like: false, dislike: true })
-    }
-    else if (clickButton.dislike === true) 
-      console.log("nothing")
-    else if (clickButton.like === true && clickButton.dislike === false) {
-      madeChangesonClick(objQuestion._id, { like: objQuestion.like - 1, dislike: objQuestion.dislike + 1 });
-      console.log(objQuestion._id, { like: objQuestion.like - 1, dislike: objQuestion.dislike + 1 })
-      setObjQuestion({ ...objQuestion, dislike: objQuestion.dislike + 1, like: objQuestion.like - 1 })
-      setClickButton({ like: false, dislike: true })
-    }
-  }
+  // // Like and Dislike Button Logic
+  // const handleLikeClick = () => {
+  //   console.log("test2--", objQuestion)
+  //   console.log(clickButton, "Like")
+  //   if (clickButton.like === null && clickButton.dislike === null) {
+  //     console.log({ id: objQuestion._id, like: objQuestion.like + 1, dislike: objQuestion.dislike })
+  //     madeChangesonClick(objQuestion._id, { like: objQuestion.like + 1, dislike: objQuestion.dislike });
+  //     setObjQuestion({ ...objQuestion, like: objQuestion.like + 1 })
+  //     setClickButton({ like: true, dislike: false })
+  //   }
+  //   else if (clickButton.like === true) 
+  //     console.log("nothing")
+  //   else if (clickButton.like === false && clickButton.dislike === true) {
+  //     madeChangesonClick(objQuestion._id, { like: objQuestion.like + 1, dislike: objQuestion.dislike - 1 });
+  //     console.log({ id: objQuestion._id, like: objQuestion.like + 1, dislike: objQuestion.dislike - 1 })
+  //     setObjQuestion({ ...objQuestion, like: objQuestion.like + 1, dislike: objQuestion.dislike - 1 })
+  //     setClickButton({ like: true, dislike: false })
+  //   }
+  // }
+  // const handleDislikeClick = () => {
+  //   console.log(clickButton, "Dislike")
+  //   console.log("test2--", objQuestion)
+  //   if (clickButton.like === null && clickButton.dislike === null) {
+  //     madeChangesonClick({ id: objQuestion._id, like: objQuestion.like, dislike: objQuestion.dislike + 1 });
+  //     console.log({ id: objQuestion._id, like: objQuestion.like, dislike: objQuestion.dislike + 1 })
+  //     setObjQuestion({ ...objQuestion, dislike: objQuestion.dislike + 1 })
+  //     setClickButton({ like: false, dislike: true })
+  //   }
+  //   else if (clickButton.dislike === true) 
+  //     console.log("nothing")
+  //   else if (clickButton.like === true && clickButton.dislike === false) {
+  //     madeChangesonClick(objQuestion._id, { like: objQuestion.like - 1, dislike: objQuestion.dislike + 1 });
+  //     console.log(objQuestion._id, { like: objQuestion.like - 1, dislike: objQuestion.dislike + 1 })
+  //     setObjQuestion({ ...objQuestion, dislike: objQuestion.dislike + 1, like: objQuestion.like - 1 })
+  //     setClickButton({ like: false, dislike: true })
+  //   }
+  // }
 
 
 
   return (
-    <>
+    <> 
 
       <div className='mx-2 my-1'>
         <div className="d-flex">
-          <div style={{ width: "50%", padding: "20px" }}>
+          <div style={{ width:"50%", padding: "20px" }}>
             <div style={{}}>
               <h5>{objQuestion.no}. {objQuestion.name}</h5>
             </div>
             <div style={{}} className=' my-3'>
-              <pre><span className={`${objQuestion.difficulty === "Easy" ? "text-success" : (objQuestion.difficulty === "Medium" ? "text-warning" : "text-danger")}`}>{objQuestion.difficulty}</span> <span onClick={handleLikeClick}>  &#128077; {objQuestion.like} </span><span onClick={handleDislikeClick}> &#128078; {objQuestion.dislike}</span> </pre>
+              <pre><span className={`${objQuestion.difficulty === "Easy" ? "text-success" : (objQuestion.difficulty === "Medium" ? "text-warning" : "text-danger")}`}>{objQuestion.difficulty}</span> <span >  &#128077; {objQuestion.like} </span><span > &#128078; {objQuestion.dislike}</span> </pre>
             </div>
             <div className="">
               <pre onClick={handleTagClick}>&#10148; Company Tags: {tagClick === true ? objQuestion.companies : ""}</pre>

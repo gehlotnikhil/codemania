@@ -12,7 +12,7 @@ function Register() {
   const context = useContext(NoteContext)
   let {original,setOriginal} = context
   const navigate = useNavigate();
-  const host = "http://localhost:5000"
+  const host = context.host
   const [credential, setCredential] = useState({
     name: "",
     email: "",

@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
-
+import React, { useState,useContext } from 'react'
+import NoteContext from '../context/notes/NoteContext'
 
 function Playground() {
+  
+  const context = useContext(NoteContext)
+  const host = context.host
   const [loading, setLoading] = useState("d-none")
   const [outputOfCode, setOutputOfCode] = useState("")
-  const host = "http://localhost:5000"
 
   const [code, setCode] = useState({
     code: "",

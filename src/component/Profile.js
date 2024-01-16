@@ -28,11 +28,12 @@ function Profile() {
 
 
   const context = useContext(NoteContext)
-  let {original,setOriginal} = useContext
+  let {original,setOriginal} = context
+  const host  = context.host
   // Editing Note
   const editNote = async () => {
     //API CALL
-    const response = await fetch(`http://localhost:5000/api/auth/update/${localStorage.getItem("id")}`, {
+    const response = await fetch(`${host}/api/auth/update/${localStorage.getItem("id")}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
