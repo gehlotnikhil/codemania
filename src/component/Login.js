@@ -5,12 +5,14 @@ import { toast } from 'react-toastify';
 import NoteContext from '../context/notes/NoteContext';
 import { useSelector, useDispatch } from 'react-redux';
 import {Sid,Stoken,Sname,Susername,Sinstitude,Semail,Smobile,Saddress,SoriginalName,Soriginalusername,Soriginalinstitude,Soriginalemail,Soriginalmobile,Soriginaladdress} from "../actions/index"
+import {GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from "jwt-decode";
 
 function Login() {
   const dispatch = useDispatch()
 
   const context = useContext(NoteContext)
-  let { original, setOriginal } = context
+  let { original, setOriginal,signIn } = context
   const navigate = useNavigate()
   const host =context.host
   const [credential, setCredential] = useState({ email: "", password: "" })
@@ -94,6 +96,62 @@ function Login() {
           </div>
 
           <button type="submit" onClick={handleClick} className="btn btn-primary my-3">Submit</button>
+          <div>
+            
+    <GoogleOAuthProvider clientId="450052440413-k5igorcje5o44v8por7j5292joeume40.apps.googleusercontent.com">
+    <GoogleLogin
+  onSuccess={async(credentialResponse) => {
+    var decode = jwtDecode(credentialResponse.credential);
+    console.log(decode);
+    var json = await signIn(decode.email)
+    console.log("----->",json.success)
+    if(json.success){
+      
+      localStorage.setItem("id", json.body.id)
+      localStorage.setItem("token", json.authToken)
+      localStorage.setItem("name", json.body.name)
+      localStorage.setItem("username", json.username)
+      localStorage.setItem("institude", json.body.institude)
+      localStorage.setItem("email", json.body.email)
+      localStorage.setItem("mobile", json.body.mobile)
+      localStorage.setItem("address", json.body.address)
+      dispatch(Sid(json.body.id))
+      dispatch(Stoken(json.authToken))
+      dispatch(Sname(json.body.name))
+      dispatch(Susername(json.username))
+      dispatch(Sinstitude(json.body.institude))
+      dispatch(Semail(json.body.email))
+      dispatch(Smobile(json.body.mobile))
+      dispatch(Saddress(json.body.address))
+
+      localStorage.setItem("originalname", json.body.name)
+      localStorage.setItem("originalusername", json.username)
+      localStorage.setItem("originalinstitude", json.body.institude)
+      localStorage.setItem("originalemail", json.body.email)
+      localStorage.setItem("originalmobile", json.body.mobile)
+      localStorage.setItem("originaladdress", json.body.address)
+
+      dispatch(SoriginalName(json.body.name))
+      dispatch(Soriginalusername(json.username))
+      dispatch(Soriginalinstitude(json.body.institude))
+      dispatch(Soriginalemail(json.body.email))
+      dispatch(Soriginalmobile(json.body.mobile))
+      dispatch(Soriginaladdress(json.body.address))
+
+      navigate("/")
+      toast.success("Login Successfully")
+    }
+    else{
+      toast.error("Failed to Login")
+    }
+  }}
+  onError={() => {
+    console.log('Login Failed');
+  }}
+/>   
+      </GoogleOAuthProvider>
+   
+          </div>
         </form>
       </div>
     </div>

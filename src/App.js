@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route, } from "react-router-dom";
 import Navbar from './component/Navbar'
 import Home from './component/Home'
 import About from './component/About'
+
 import Playground from './component/Playground'
 import Login from './component/Login';
 import Register from "./component/Register"
@@ -16,8 +17,9 @@ import SingleStudyItem from "./component/SingleStudyItem"
 import {useDispatch} from "react-redux"
 import {useSelector} from "react-redux"
 function App() {
-  // const host = "https://codemania-backend-production.up.railway.app"
-  const host = "http://localhost:5000"
+  const host = "https://codemania-backend-production.up.railway.app"
+  // const host = "http://localhost:5000"
+
   const dispatch = useDispatch()
   const balance = useSelector(state=>state.amount)
   const isPositive = useSelector(state=>state.check)
@@ -85,9 +87,31 @@ function App() {
     console.log(err)
   }
   }
+
+  const signIn = async(email)=>{
+    try{
+    console.log("google-enterered")
+    const response = await fetch(`${host}/api/auth/glogin`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "auth-header": localStorage.getItem("token")
+      },
+      body: JSON.stringify({email})
+    });
+    const json = await response.json();
+    console.log("google------",json)
+    return json
+  }catch(err){
+    console.log(err)
+  }
+  }
+  
+
+
   return (
     <>
-      <NoteContext.Provider value={{host,madeChangesonClick,searchChangeProfile,searchItem,setSearchItem,original,setOriginal,goToCurrent,setGoToCurrent,itemPageSize,setItemPageSize,questionItemNo,setQuestionItemNo,singleQuestionNo,setSingleQuestionNo,question,getQuestion,setDistributedQuestion,distributedQuestion}}>
+      <NoteContext.Provider value={{signIn,host,madeChangesonClick,searchChangeProfile,searchItem,setSearchItem,original,setOriginal,goToCurrent,setGoToCurrent,itemPageSize,setItemPageSize,questionItemNo,setQuestionItemNo,singleQuestionNo,setSingleQuestionNo,question,getQuestion,setDistributedQuestion,distributedQuestion}}>
         <Router>
           <Navbar />
           <Routes>

@@ -7,6 +7,43 @@ const jwt = require("jsonwebtoken")
 
 const JWT_Secret = "NikhilGehlot"
 
+router.post("/glogin", async (req, res) => {
+    let success = false
+    const { email } = req.body;
+    try {
+        const user = await User.findOne({ email: req.body.email })
+        // if email is unable to find
+        if (!user) {
+            return res.status(401).send({ success, error: "E-Please provide correct Credential" })
+        }
+        console.log("details: " + user)
+        const data = {
+            users: {
+                id: user.id
+            }
+        }
+        const authToken = await jwt.sign(data, JWT_Secret)
+
+        success = true
+        req.body.id = user.id
+        req.body.name = user.name
+        req.body.institude = user.institude
+        req.body.age = user.age
+        req.body.mobile = user.mobile || "Unknown"
+        req.body.address = user.address || "Unknown"
+        console.log("req body == ", req.body)
+
+        res.send({ success, authToken, body: req.body, username: user.username })
+
+    } catch (err) {
+        for (field in err.errors) {
+            console.log(err.errors[field])
+        }
+        return res.status(407).send({ success, err })
+    }
+})
+
+
 router.post("/login", [
     body("email", "Please Enter a Email in the Field").isEmail(),
     body("password", "Please Enter Your Password").exists()
@@ -15,7 +52,7 @@ router.post("/login", [
     const error = validationResult(req)
     // after checking credential, if error occur then execute if statement
     if (!error.isEmpty()) {
-        return res.status(403).json({ success,error: error.array() })
+        return res.status(403).json({ success, error: error.array() })
     }
     const { email, password } = req.body;
     try {
@@ -23,9 +60,9 @@ router.post("/login", [
         const user = await User.findOne({ email: req.body.email })
         // if email is unable to find
         if (!user) {
-            return res.status(401).send({success,error:"E-Please provide correct Credential"})
+            return res.status(401).send({ success, error: "E-Please provide correct Credential" })
         }
-        console.log("details: "+user)
+        console.log("details: " + user)
 
         const passwordCompare = await bcrypt.compare(password, user.password)
         //if password is wrong then if block execute
@@ -46,15 +83,15 @@ router.post("/login", [
         req.body.age = user.age
         req.body.mobile = user.mobile || "Unknown"
         req.body.address = user.address || "Unknown"
-        console.log("req body == ",req.body)
-        res.send({ success, authToken, body: req.body,username:user.username })
+        console.log("req body == ", req.body)
+        res.send({ success, authToken, body: req.body, username: user.username })
         console.log(authToken)
     }
     catch (err) {
         for (field in err.errors) {
             console.log(err.errors[field])
         }
-        return res.status(407).send(success,err)
+        return res.status(407).send(success, err)
     }
 })
 
@@ -109,7 +146,7 @@ router.post("/register", [
         req.body.mobile = result.mobile || "Unknown"
         req.body.address = result.address || "Unknown"
         req.body.id = result.id
-        res.send({ success, authToken, body: req.body,username:u1.username })
+        res.send({ success, authToken, body: req.body, username: u1.username })
     }
     catch (err) {
         console.log(err)
@@ -135,10 +172,10 @@ router.put("/update/:id", async (req, res) => {
     if (req.body.age) {
         user.age = req.body.age
     }
-    if(req.body.mobile){
+    if (req.body.mobile) {
         user.mobile = req.body.mobile
     }
-    if(req.body.address){
+    if (req.body.address) {
         user.address = req.body.address
     }
 
@@ -148,16 +185,16 @@ router.put("/update/:id", async (req, res) => {
     res.send(result)
 })
 //Route 2: Create a user
-router.post("/getdetails/:name", async(req,res)=>{
-    try{
+router.post("/getdetails/:name", async (req, res) => {
+    try {
         success = false
-        let a = await User.findOne({username:req.params.name}).select("-password")
+        let a = await User.findOne({ username: req.params.name }).select("-password")
         // if username is not found
-        if(!a){
-            return res.send({success,result:"Username not found"})
+        if (!a) {
+            return res.send({ success, result: "Username not found" })
         }
-        success=  true
-        res.send({success,result:a})
+        success = true
+        res.send({ success, result: a })
 
     }
     catch (err) {
