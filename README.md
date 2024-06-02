@@ -10,6 +10,11 @@ output
 
 • In the profile section, added a feature to search other’s profiles using
 username
+
+## Video Demo Link
+
+https://drive.google.com/file/d/1t-kNu40dDH0TGEcaqWc-peu1Hxrf6XPZ/view?usp=drive_link
+
 ## Tech Stack
 
 **Client:** React.js, Redux, Bootstrap,
@@ -17,9 +22,4 @@ username
 **Server:** Node.js, Express.js
 
 **Database:** MongoDB
-
-
-## Video Demo Link
-
-https://drive.google.com/file/d/1t-kNu40dDH0TGEcaqWc-peu1Hxrf6XPZ/view?usp=drive_link
 
