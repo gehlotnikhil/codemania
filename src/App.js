@@ -1,5 +1,5 @@
 import './App.css';
-import {useState,useEffect} from "react"
+import { useState, useEffect } from "react"
 import { BrowserRouter as Router, Routes, Route, } from "react-router-dom";
 import Navbar from './component/Navbar'
 import Home from './component/Home'
@@ -14,16 +14,11 @@ import Error from "./component/Error"
 import NoteContext from "./context/notes/NoteContext"
 import SingleQuestion from './component/SingleQuestion';
 import SingleStudyItem from "./component/SingleStudyItem"
-import {useDispatch} from "react-redux"
-import {useSelector} from "react-redux"
 function App() {
-  const host = "https://codemania-backend-production.up.railway.app"
+  const host = "https://codemania-backend.vercel.app"
   // const host = "http://localhost:5000"
 
-  const dispatch = useDispatch()
-  const balance = useSelector(state=>state.amount)
-  const isPositive = useSelector(state=>state.check)
-  const [singleQuestionNo,setSingleQuestionNo] = useState("")
+  const [singleQuestionNo, setSingleQuestionNo] = useState("")
 
   const initialQuestion = []
 
@@ -33,30 +28,37 @@ function App() {
 
   useEffect(() => {
     console.log(question)
-    console.log(balance)
   }, [question])
-   
-   //Get Note
-   const getQuestion = async() => {
+  //Get Note
+  const getQuestion = async () => {
     //API CALL
     const response = await fetch(`${host}/api/question/getallquestion`, {
-     method: "GET",
-     headers: {
-       "Content-Type": "application/json",
-       "auth-header": localStorage.getItem("token")
-     },
-   });
-   
-   const json = await response.json();
-   console.log(typeof json,"json-",json)
-   setQuestion(json)
- }
- const [questionItemNo, setQuestionItemNo] = useState(1)
- 
-  const [goToCurrent,setGoToCurrent] = useState("d-none")
-  const [original,setOriginal] = useState("")
-  const [searchItem,setSearchItem] = useState("")
-  const searchChangeProfile = async(name)=>{
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "auth-header": localStorage.getItem("token")
+      },
+    });
+
+    const json = await response.json();
+    console.log(typeof json, "json-------", json)
+    for (var i = 0; i < json.length - 1; i++) {
+      for (var j = i + 1; j < json.length; j++) {
+        if (json[i]["no"] > json[j]["no"]) {
+          var temp = json[i]
+          json[i] = json[j]
+          json[j] = temp
+        }
+      }
+    }
+    setQuestion(json)
+  }
+  const [questionItemNo, setQuestionItemNo] = useState(1)
+
+  const [goToCurrent, setGoToCurrent] = useState("d-none")
+  const [original, setOriginal] = useState("")
+  const [searchItem, setSearchItem] = useState("")
+  const searchChangeProfile = async (name) => {
     const response = await fetch(`${host}/api/auth/getdetails/${name}`, {
       method: "POST",
       headers: {
@@ -65,53 +67,53 @@ function App() {
       }
     });
     const json = await response.json();
-       
-   
+
+
     return json
   }
-  const madeChangesonClick = async(id,ob)=>{
-    try{
-    console.log("m-",ob)
-    console.log("enterered")
-    const response = await fetch(`${host}/api/question/update/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        "auth-header": localStorage.getItem("token")
-      },
-      body: JSON.stringify({like:ob.like,dislike:ob.dislike})
-    });
-    const json = await response.json();
-    console.log("new------",json)
-  }catch(err){
-    console.log(err)
-  }
+  const madeChangesonClick = async (id, ob) => {
+    try {
+      console.log("m-", ob)
+      console.log("enterered")
+      const response = await fetch(`${host}/api/question/update/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-header": localStorage.getItem("token")
+        },
+        body: JSON.stringify({ like: ob.like, dislike: ob.dislike })
+      });
+      const json = await response.json();
+      console.log("new------", json)
+    } catch (err) {
+      console.log(err)
+    }
   }
 
-  const signIn = async(email)=>{
-    try{
-    console.log("google-enterered")
-    const response = await fetch(`${host}/api/auth/glogin`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "auth-header": localStorage.getItem("token")
-      },
-      body: JSON.stringify({email})
-    });
-    const json = await response.json();
-    console.log("google------",json)
-    return json
-  }catch(err){
-    console.log(err)
+  const signIn = async (email) => {
+    try {
+      console.log("google-enterered")
+      const response = await fetch(`${host}/api/auth/glogin`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-header": localStorage.getItem("token")
+        },
+        body: JSON.stringify({ email })
+      });
+      const json = await response.json();
+      console.log("google------", json)
+      return json
+    } catch (err) {
+      console.log(err)
+    }
   }
-  }
-  
+
 
 
   return (
     <>
-      <NoteContext.Provider value={{signIn,host,madeChangesonClick,searchChangeProfile,searchItem,setSearchItem,original,setOriginal,goToCurrent,setGoToCurrent,itemPageSize,setItemPageSize,questionItemNo,setQuestionItemNo,singleQuestionNo,setSingleQuestionNo,question,getQuestion,setDistributedQuestion,distributedQuestion}}>
+      <NoteContext.Provider value={{ signIn, host, madeChangesonClick, searchChangeProfile, searchItem, setSearchItem, original, setOriginal, goToCurrent, setGoToCurrent, itemPageSize, setItemPageSize, questionItemNo, setQuestionItemNo, singleQuestionNo, setSingleQuestionNo, question, getQuestion, setDistributedQuestion, distributedQuestion }}>
         <Router>
           <Navbar />
           <Routes>
@@ -123,7 +125,7 @@ function App() {
             <Route exact path="/profile" element={<Profile />} />
             <Route exact path="/singlequestion" element={<SingleQuestion />} />
             <Route exact path="/singlestudyitem" element={<SingleStudyItem />} />
-            <Route path ="*" element={<Error/>}/>
+            <Route path="*" element={<Error />} />
           </Routes>
           <Footer />
         </Router>

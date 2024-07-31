@@ -43,7 +43,7 @@ function StudyPlan() {
   return (
     <div className='container my-2' style={{padding:"0"}}>
       <div>
-        <h1 style={{fontSize:"25px",fontWeight:"500"}}>Study Plan</h1>
+        <h1 style={{fontSize:"25px",fontWeight:"500"}}>Category</h1>
       </div>
       <div style={{
         minHeight: "200px",

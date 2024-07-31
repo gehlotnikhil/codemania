@@ -91,7 +91,7 @@ router.post("/login", [
         for (field in err.errors) {
             console.log(err.errors[field])
         }
-        return res.status(407).send(success, err)
+        return res.status(408).send(success, err)
     }
 })
 
@@ -153,7 +153,7 @@ router.post("/register", [
         for (field in err.errors) {
             console.log(err.errors[field])
         }
-        res.status(409).send({ success, error: err })
+        res.status(404).send({ success, error: err })
     }
 })
 
