@@ -1,3 +1,7 @@
+# Live Site: https://codemania05.vercel.app/
+Demo Credential:
+ - Email: qwerty@gmail.com
+ - password: 11111
 
 # Codemania - The Coding Platform
 
